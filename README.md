@@ -15,7 +15,7 @@
 
 ### 安装 | Install
 
-点击[链接](https://github.com/hyc-official/LuoguShowEmoji/raw/latest/LuoguShowEmoji.min.user.js)进行安装。
+<http://lgse.heyc.eu.org/install.html>
 
 ### 已知 Bug | Known Bugs
 
