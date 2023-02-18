@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Luogu Show Emoji
 // @namespace    blog.heyc.eu.org
-// @version      0.1.0
+// @version      0.2.0
 // @description  Show emoji in Luogu
 // @author       Heyc
 // @match        https://www.luogu.com.cn/*
@@ -183,29 +183,43 @@ var emoji = [
     "zt",
     "zuotj",
 ];
-
+var css = "color: #E67E22;";
 var re = "(>[^<]*?)\/%EMOJI%([^A-Za-z]+?)";
-var rp = "$1<img src=\"https://cdn.jsdelivr.net/gh/hyc-official/LuoguShowEmoji/qqemoji/-%EMOJI%.gif\">$2";
+var rp = "$1<img src=\"https://ghproxy.com/https://raw.githubusercontent.com/hyc-official/LuoguShowEmoji/master/qqemoji/-%EMOJI%.gif\" alt=\"/%EMOJI%\">$2";
+
 function run()
 {
     let cmts = document.querySelectorAll(".am-comment-bd");
+    let sta = false;
     for (let i = 0; i < cmts.length; i++)
     {
         let str = cmts[i].innerHTML;
         for (let j = 0; j < emoji.length; j++)
         {
             let regex = new RegExp(re.replace(/%EMOJI%/g, emoji[j]), "g");
-            str = str.replace(regex, rp.replace(/%EMOJI%/g, emoji[j]));
+            while (regex.test(str))
+            {
+                str = str.replace(regex, rp.replace(/%EMOJI%/g, emoji[j]));
+            }
         }
-        cmts[i].innerHTML = str;
+        if (cmts[i].innerHTML != str)
+        {
+            cmts[i].innerHTML = str;
+            sta = true;
+        }
+    }
+    if (sta)
+    {
+        console.log("%c[lgse] Replaced", css);
     }
 }
 
 function start()
 {
     run();
-    setTimeout(start, 100);
+    setTimeout(start, 1000);
 }
 
+console.log("%c[lgse] Started", css);
 start();
 // run();
