@@ -7,7 +7,7 @@
 - 与别人聊天时，对方发来一个 QQ 斜杠表情，自己却看不懂？
 - 想看看自己的斜杠表情发对了没？
 
-如果你想改善这些情况，那么你只需要——Luogu Show Emoji。
+如果你想改善或~~根除~~这些情况，那么你只需要——Luogu Show Emoji。
 
 ### 功能 | Usage
 
@@ -15,11 +15,11 @@
 
 ### 安装 | Install
 
-点击[链接](https://github.com/hyc-official/LuoguShowEmoji/raw/master/LuoguShowEmoji.min.user.js)进行安装。
+点击[链接](https://github.com/hyc-official/LuoguShowEmoji/raw/latest/LuoguShowEmoji.min.user.js)进行安装。
 
-~~不会吧不会吧，都到这里了该不会还打不开 Raw 链接吧~~
+### 已知 Bug | Known Bugs
 
-### 已知 Bug | Bugs
+- 在回复犇犇时原斜杠代码文字会消失
+- ~~无法选中犇犇/讨论回复中的文字~~ 0.2.0 已修复
 
-- 在回复犇犇时原斜杠代码文字会消失。
-- 无法选中犇犇/讨论回复中的文字
+报告 Bug 请发 Issues。
