@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name         Luogu Show Emoji
 // @namespace    blog.heyc.eu.org
-// @version      0.2.0
+// @version      1.0.0
 // @description  Show emoji in Luogu
 // @author       Heyc
 // @match        https://www.luogu.com.cn/*
-// @icon         https://www.luogu.com.cn/favicon.ico
+// @icon         https://ghproxy.com/https://raw.githubusercontent.com/hyc-official/LGSE-page/master/favicon.ico
 // @grant        none
 // ==/UserScript==
 
@@ -184,28 +184,37 @@ var emoji = [
     "zuotj",
 ];
 var css = "color: #E67E22;";
-var re = "(>[^<]*?)\/%EMOJI%([^A-Za-z]+?)";
-var rp = "$1<img src=\"https://ghproxy.com/https://raw.githubusercontent.com/hyc-official/LuoguShowEmoji/master/qqemoji/-%EMOJI%.gif\" alt=\"/%EMOJI%\">$2";
+var re = "(>[^<]*?)(\/%EMOJI%)([^<A-Za-z])";
+var rp = "$1<span style=\"color: #dfdfdf; font-size: 0.3em;\">$2</span><img src=\"https://ghproxy.com/https://raw.githubusercontent.com/hyc-official/LuoguShowEmoji/latest/qqemoji/-%EMOJI%.gif\" alt=\"/%EMOJI%\">$3";
 
 function run()
 {
-    let cmts = document.querySelectorAll(".am-comment-bd");
+    let cmts = [document.querySelectorAll(".am-comment-bd")];
     let sta = false;
-    for (let i = 0; i < cmts.length; i++)
+    for (let x = 0; x < cmts.length; x++)
     {
-        let str = cmts[i].innerHTML;
-        for (let j = 0; j < emoji.length; j++)
+        for (let i = 0; i < cmts[x].length; i++)
         {
-            let regex = new RegExp(re.replace(/%EMOJI%/g, emoji[j]), "g");
-            while (regex.test(str))
+            let str = cmts[x][i].innerHTML + " ";
+            for (let j = emoji.length - 1; j >= 0; j--)
             {
-                str = str.replace(regex, rp.replace(/%EMOJI%/g, emoji[j]));
+                str = str.replace(new RegExp(`(\/${emoji[j]})(<\/p)`, "g"), "$1 $2");
+                str = str.replace(new RegExp(`(\/${emoji[j]})(<\/a)`, "g"), "$1 $2");
+                str = str.replace(new RegExp(`(\/${emoji[j]})(<\/b)`, "g"), "$1 $2");
+                str = str.replace(new RegExp(`(\/${emoji[j]})(<\/i)`, "g"), "$1 $2");
+                str = str.replace(new RegExp(`(\/${emoji[j]})(<\/del)`, "g"), "$1 $2");
+                str = str.replace(new RegExp(`(\/${emoji[j]})(<\/img)`, "g"), "$1 $2");
+                let regex = new RegExp(re.replace(/%EMOJI%/g, emoji[j]), "g");
+                while (regex.test(str))
+                {
+                    str = str.replace(regex, rp.replace(/%EMOJI%/g, emoji[j]));
+                }
             }
-        }
-        if (cmts[i].innerHTML != str)
-        {
-            cmts[i].innerHTML = str;
-            sta = true;
+            if (cmts[x][i].innerHTML != str)
+            {
+                cmts[x][i].innerHTML = str;
+                sta = true;
+            }
         }
     }
     if (sta)
