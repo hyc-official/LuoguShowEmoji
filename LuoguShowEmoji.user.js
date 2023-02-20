@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Luogu Show Emoji
 // @namespace    blog.heyc.eu.org
-// @version      1.1.0
+// @version      1.1.1
 // @description  Show emoji in Luogu
 // @author       Heyc
 // @match        https://www.luogu.com.cn/*
@@ -198,7 +198,7 @@ function run()
             let str = cmts[x][i].innerHTML + " ";
             for (let j = emoji.length - 1; j >= 0; j--)
             {
-                str = str.replace(new RegExp(`(\/${emoji[j]})(<\/[^s])`, "g"), "$1 $2");
+                str = str.replace(new RegExp(`(\/${emoji[j]})(<\/{0,1}[^s\/])`, "g"), "$1 $2");
                 let regex = new RegExp(re.replace(/%EMOJI%/g, emoji[j]), "g");
                 while (regex.test(str))
                 {
