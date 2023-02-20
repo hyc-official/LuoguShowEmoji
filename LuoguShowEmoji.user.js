@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name         Luogu Show Emoji
 // @namespace    blog.heyc.eu.org
-// @version      1.1.2
+// @version      1.2.0
 // @description  Show emoji in Luogu
 // @author       Heyc
 // @match        https://www.luogu.com.cn/*
+// @require      https://ghproxy.com/https://raw.githubusercontent.com/hyc-official/LGSE-page/master/alert.js
 // @icon         https://ghproxy.com/https://raw.githubusercontent.com/hyc-official/LGSE-page/master/favicon.ico
 // @grant        none
 // ==/UserScript==
@@ -225,6 +226,22 @@ function start()
     setTimeout(start, 1000);
 }
 
-console.log("%c[lgse] Started", css);
 start();
 // run();
+console.log("%c[lgse] Started", css);
+
+// ------------------------------
+
+var v = "1.2.0";
+console.log(`%c[lgse] Version: ${v} | ${ver}`, css);
+
+function upd()
+{
+    if (ver != v)
+    {
+        document.querySelectorAll(".lg-article")[0].innerHTML += `<center style="font-size: 1.25em;">LGSE 有新版本<span style="color: #e67e22;">${ver}</span>，<a href="https://ghproxy.com/https://raw.githubusercontent.com/hyc-official/LuoguShowEmoji/latest/LuoguShowEmoji.min.user.js">点击这里安装</a>。</center>`;
+        console.log("%c[lgse] Popped update content", css);
+    }
+}
+
+upd();
