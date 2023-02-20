@@ -7,15 +7,19 @@
 - 与别人聊天时，对方发来一个 QQ 斜杠表情，自己却看不懂？
 - 想看看自己的斜杠表情发对了没？
 
-如果你想改善或~~根除~~这些情况，那么你只需要——Luogu Show Emoji。
+如果你想改善这些情况，那么你只需要——Luogu Show Emoji。
 
 ### 功能 | Usage
 
-显然，本脚本的功能是将洛谷犇犇（目前不包括个人主页）和讨论区中的 QQ 斜杠表情替换为图片。
+LGSE 是一个油猴脚本。
+
+本脚本的功能是将洛谷犇犇（~~目前不包括个人主页~~ 1.1.0 已包括）和讨论区回复中的 QQ 斜杠表情替换为图片。
 
 ### 安装 | Install
 
-<http://lgse.heyc.eu.org/install.html>
+<https://lgse.heyc.eu.org/install.html>
+
+官网：<https://lgse.heyc.eu.org/index.html>。
 
 ### 已知问题 | Known Bugs
 

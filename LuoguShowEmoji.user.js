@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Luogu Show Emoji
 // @namespace    blog.heyc.eu.org
-// @version      1.0.0
+// @version      1.1.0
 // @description  Show emoji in Luogu
 // @author       Heyc
 // @match        https://www.luogu.com.cn/*
@@ -189,7 +189,7 @@ var rp = "$1<span style=\"color: #dfdfdf; font-size: 0.3em;\">$2</span><img src=
 
 function run()
 {
-    let cmts = [document.querySelectorAll(".am-comment-bd")];
+    let cmts = [document.querySelectorAll(".am-comment-bd"), document.querySelectorAll(".content")];
     let sta = false;
     for (let x = 0; x < cmts.length; x++)
     {
@@ -198,12 +198,7 @@ function run()
             let str = cmts[x][i].innerHTML + " ";
             for (let j = emoji.length - 1; j >= 0; j--)
             {
-                str = str.replace(new RegExp(`(\/${emoji[j]})(<\/p)`, "g"), "$1 $2");
-                str = str.replace(new RegExp(`(\/${emoji[j]})(<\/a)`, "g"), "$1 $2");
-                str = str.replace(new RegExp(`(\/${emoji[j]})(<\/b)`, "g"), "$1 $2");
-                str = str.replace(new RegExp(`(\/${emoji[j]})(<\/i)`, "g"), "$1 $2");
-                str = str.replace(new RegExp(`(\/${emoji[j]})(<\/del)`, "g"), "$1 $2");
-                str = str.replace(new RegExp(`(\/${emoji[j]})(<\/img)`, "g"), "$1 $2");
+                str = str.replace(new RegExp(`(\/${emoji[j]})(<\/[^s])`, "g"), "$1 $2");
                 let regex = new RegExp(re.replace(/%EMOJI%/g, emoji[j]), "g");
                 while (regex.test(str))
                 {
