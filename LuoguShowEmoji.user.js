@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Luogu Show Emoji
 // @namespace    blog.heyc.eu.org
-// @version      1.2.0
+// @version      1.2.1
 // @description  Show emoji in Luogu
 // @author       Heyc
 // @match        https://www.luogu.com.cn/*
@@ -232,8 +232,8 @@ console.log("%c[lgse] Started", css);
 
 // ------------------------------
 
-var v = "1.2.0";
-console.log(`%c[lgse] Version: ${v} | ${ver}`, css);
+var v = "1.2.1";
+console.log("%c[lgse] Version: " + v + " | " + ver, css);
 
 function upd()
 {
