@@ -1,10 +1,12 @@
 // ==UserScript==
 // @name         Luogu Show Emoji
 // @namespace    blog.heyc.eu.org
-// @version      1.3.3
+// @version      1.3.4
 // @description  Show emoji in Luogu
 // @author       Heyc
-// @match        https://www.luogu.com.cn/*
+// @match        https://www.luogu.com.cn/
+// @match        https://www.luogu.com.cn/user/*
+// @match        https://www.luogu.com.cn/discuss/*
 // @icon         https://ghproxy.com/https://raw.githubusercontent.com/hyc-official/LGSE-page/master/favicon.ico
 // @grant        GM_xmlhttpRequest
 // ==/UserScript==
@@ -194,7 +196,11 @@ function run()
     {
         for (let i = 0; i < cmts[x].length; i++)
         {
-            let str = cmts[x][i].innerHTML + " ";
+            if (cmts[x][i].innerHTML.indexOf("<!--LGSE Replaced-->") != -1)
+            {
+                continue;
+            }
+            let str = cmts[x][i].innerHTML;
             for (let j = emoji.length - 1; j >= 0; j--)
             {
                 str = str.replace(new RegExp(`(\/${emoji[j]})(<span)`, "g"), "$1 $2");
@@ -205,17 +211,11 @@ function run()
                     str = str.replace(regex, rp.replace(/%EMOJI%/g, emoji[j]));
                 }
             }
-            if (cmts[x][i].innerHTML != str)
-            {
-                cmts[x][i].innerHTML = str;
-                sta = true;
-            }
+            str += "<!--LGSE Replaced-->";
+            cmts[x][i].innerHTML = str;
         }
     }
-    if (sta)
-    {
-        console.log("%c[lgse] Replaced", css);
-    }
+    console.log("%c[lgse] Replaced", css);
 }
 
 function start()
@@ -258,6 +258,7 @@ function srhemj()
         display: none;
         width: max(30%, 300px);
         height: calc(100% - 130px);
+        border: 1px solid #0e90d2;
     }
     .se-emj {
         float: left;
@@ -313,7 +314,7 @@ srhemj();
 
 // ------------------------------
 
-var cv = "1.3.3";
+var cv = "1.3.4";
 var vr = new RegExp("[0-9]+\.[0-9]+\.[0-9]+", "g");
 
 function upd()
@@ -331,7 +332,7 @@ function upd()
             }
             if (cv < lv)
             {
-                $(".lg-punch").append(`<center><b>LGSE 有新版本 <span style="color: #e67e22;">${lv}</span>，<a href="https://ghproxy.com/https://raw.githubusercontent.com/hyc-official/LuoguShowEmoji/latest/LuoguShowEmoji.min.user.js">点击这里安装</a>。</b></center>`);
+                $(".lg-punch").append(`<center><b>LGSE 有新版本 <span style="color: #e67e22;">${lv}</span>，当前版本 <span style="color: #e67e22;">${cv}</span>，<a href="https://ghproxy.com/https://raw.githubusercontent.com/hyc-official/LuoguShowEmoji/latest/LuoguShowEmoji.min.user.js">点击这里安装新版本</a>。</b></center>`);
                 console.log("%c[lgse] Popped upgrade content", css);
             }
             if (cv > lv)
