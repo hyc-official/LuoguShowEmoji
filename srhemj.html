@@ -7,8 +7,9 @@
         border-radius: 5px;
         background-color: #fff;
         padding: 11px;
-        width: 50px;
-        height: 50px;
+        width: auto;
+        height: auto;
+        cursor: pointer;
     }
     .se-ent:hover {
         background-color: #ccc;
@@ -57,6 +58,10 @@
     {
         st = 1 - st;
         document.getElementById("se-mnu").style.display = (st == 0 ? "none" : "grid");
+        if (st == 1)
+        {
+            se_srh();
+        }
     }
     function se_srh()
     {
@@ -64,7 +69,7 @@
         let ih = "";
         for (let i = 0; i < emoji.length; i++)
         {
-            if (emoji[i].replace(wd, "") != emoji[i])
+            if (wd == "" || emoji[i].replace(wd, "") != emoji[i])
             {
                 ih += emjhtml.replace(/%EMOJI%/g, emoji[i]);
             }
