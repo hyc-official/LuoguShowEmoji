@@ -1,15 +1,15 @@
 // ==UserScript==
 // @name         Luogu Show Emoji
 // @namespace    blog.heyc.eu.org
-// @version      1.3.5
+// @version      1.3.6
 // @description  Show emoji in Luogu
 // @author       Heyc
 // @match        https://www.luogu.com.cn/
 // @match        https://www.luogu.com.cn/user/*
 // @match        https://www.luogu.com.cn/discuss/*
-// @icon         https://ghproxy.com/https://raw.githubusercontent.com/hyc-official/LGSE-page/master/favicon.ico
+// @icon         https://cdn.jsdelivr.net/gh/hyc-official/LGSE-page/favicon.ico
 // @require      https://code.jquery.com/jquery-3.6.0.min.js
-// @connect      ghproxy.com
+// @connect      cdn.jsdelivr.net
 // @grant        GM_xmlhttpRequest
 // ==/UserScript==
 
@@ -188,7 +188,7 @@ var emoji = [
 ];
 var css = "color: #E67E22;";
 var re = "(>[^<]*?)(\/%EMOJI%)([^<A-Za-z])";
-var rp = "$1<span style=\"color: #dfdfdf; font-size: 0.3em;\">$2</span><img src=\"https://ghproxy.com/https://raw.githubusercontent.com/hyc-official/LuoguShowEmoji/latest/qqemoji/-%EMOJI%.gif\" alt=\"/%EMOJI%\">$3";
+var rp = "$1<span style=\"color: #dfdfdf; font-size: 0.3em;\">$2</span><img src=\"https://cdn.jsdelivr.net/gh/hyc-official/LuoguShowEmoji@latest/qqemoji/-%EMOJI%.gif\" alt=\"/%EMOJI%\">$3";
 
 function run()
 {
@@ -289,7 +289,7 @@ function srhemj()
 <script>
     var st = 0;
     var emoji = ["aini","aiq","am","azgc","baiy","bangbangt","banzz","baojin","bb","bkx","bl","bobo","bp","bq","bs","bt","bu","bz","cd","cengyiceng","cg","ch","chi","cj","cp","cs","cy","dan","dao","db","dg","dgg","dk","dl","doge","dx","dy","dz","ee","emm","fad","fade","fan","fd","fendou","fj","fn","fw","gg","gy","gz","hanx","haob","hb","hc","hd","hec","hhd","hn","hp","hq","hsh","ht","huaix","hx","jd","jh","jiaybb","jiaybs","jie","jk","jw","jx","ka","kb","kel","kf","kg","kk","kl","kt","kuk","kun","kzht","lb","lengh","lh","ll","lm","lq","lw","lyj","mdfq","mg","mm","ng","nkt","oh","oy","pch","pj","pp","pt","px","qd","qiang","qiao","qq","qt","ruo","sa","se","sh","shd","shl","shuai","shui","shxi","sr","tiao","tl","tnl","tp","ts","tsh","tt","tuu","tx","ty","tyt","wbk","whl","wl","wn","wosl","wq","ws","wul","wx","wzm","xhx","xia","xig","xin","xjj","xk","xs","xu","xw","xy","xyx","yao","yb","yhh","yiw","yl","youl","youtj","yt","yun","yx","zhd","zhem","zhh","zhm","zhq","zj","zk","zq","zt","zuotj"];
-    var emjhtml = '<div class="se-emj"><img src=\"https://ghproxy.com/https://raw.githubusercontent.com/hyc-official/LuoguShowEmoji/latest/qqemoji/-%EMOJI%.gif\" alt=\"/%EMOJI%\"> | %EMOJI%</div>';
+    var emjhtml = '<div class="se-emj"><img src=\"https://cdn.jsdelivr.net/gh/hyc-official/LuoguShowEmoji@latest/qqemoji/-%EMOJI%.gif\" alt=\"/%EMOJI%\"> | %EMOJI%</div>';
     function se_cge()
     {
         st = 1 - st;
@@ -313,7 +313,7 @@ function srhemj()
         document.getElementById("se-dsp").innerHTML = ih;
     }
 </script>
-<div class="se-ent" id="se-ent" onclick="se_cge()"><img src="https://ghproxy.com/https://raw.githubusercontent.com/hyc-official/LuoguShowEmoji/latest/qqemoji/-cy.gif"></div>
+<div class="se-ent" id="se-ent" onclick="se_cge()"><img src="https://cdn.jsdelivr.net/gh/hyc-official/LuoguShowEmoji@latest/qqemoji/-cy.gif"></div>
 <div class="se-mnu" id="se-mnu"><input type="text" class="se-ipt" id="se-ipt" placeholder="搜索表情..." oninput="se_srh()"><div class="se-dsp" id="se-dsp"></div></div>`);
 }
 
@@ -328,7 +328,7 @@ function upd()
 {
     GM_xmlhttpRequest({
         method: "GET",
-        url: "https://ghproxy.com/https://raw.githubusercontent.com/hyc-official/LuoguShowEmoji/latest/version",
+        url: "https://cdn.jsdelivr.net/gh/hyc-official/LuoguShowEmoji@latest/version",
         onload: function(response) {
             var f = true;
             var sc = response.status;
@@ -345,12 +345,12 @@ function upd()
             }
             if (f && cv < lv)
             {
-                $(".lg-punch").append(`<center><b>LGSE 有新版本 <span style="color: #e67e22;">${lv}</span>，当前版本 <span style="color: #e67e22;">${cv}</span>，<a href="https://ghproxy.com/https://raw.githubusercontent.com/hyc-official/LuoguShowEmoji/latest/LuoguShowEmoji.min.user.js">点击这里安装新版本</a>。</b></center>`);
+                $(".lg-punch").append(`<center><b>LGSE 有新版本 <span style="color: #e67e22;">${lv}</span>，当前版本 <span style="color: #e67e22;">${cv}</span>，<a href="https://cdn.jsdelivr.net/gh/hyc-official/LuoguShowEmoji@latest/LuoguShowEmoji.min.user.js">点击这里安装新版本</a>。</b></center>`);
                 console.log("%c[lgse] Popped upgrade content", css);
             }
             if (f && cv > lv)
             {
-                $(".lg-punch").append(`<center><b>LGSE 最新版本为 <span style="color: #e67e22;">${lv}</span>，小于当前版本 <span style="color: #e67e22;">${cv}</span>，<a href="https://ghproxy.com/https://raw.githubusercontent.com/hyc-official/LuoguShowEmoji/latest/LuoguShowEmoji.min.user.js">点击这里安装旧版（可选）</a>。</b></center>`);
+                $(".lg-punch").append(`<center><b>LGSE 最新版本为 <span style="color: #e67e22;">${lv}</span>，小于当前版本 <span style="color: #e67e22;">${cv}</span>，<a href="https://cdn.jsdelivr.net/gh/hyc-official/LuoguShowEmoji@latest/LuoguShowEmoji.min.user.js">点击这里安装旧版（可选）</a>。</b></center>`);
                 console.log("%c[lgse] Popped downgrade content", css);
             }
             if (!f)
