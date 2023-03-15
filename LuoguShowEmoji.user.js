@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Luogu Show Emoji
 // @namespace    blog.heyc.eu.org
-// @version      1.3.6
+// @version      1.3.7
 // @description  Show emoji in Luogu
 // @author       Heyc
 // @match        https://www.luogu.com.cn/
@@ -321,7 +321,7 @@ srhemj();
 
 // ------------------------------
 
-var cv = "1.3.6";
+var cv = "1.3.7";
 var vr = new RegExp("[0-9]+\.[0-9]+\.[0-9]+", "g");
 
 function upd()
