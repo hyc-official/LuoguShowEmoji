@@ -359,12 +359,12 @@ function upd()
             }
             if (f && cv < lv)
             {
-                $("#se-ftr").append(`<center><b>LGSE 更新</b><br>当前 <b><span style="color: #e67e22;">${cv}</span></b> --&gt; 最新 <b><span style="color: #52c41a;">${lv}</span></b><br><a href="https://cdn.jsdelivr.net/gh/hyc-official/LuoguShowEmoji@latest/LuoguShowEmoji.min.user.js" style="font-size: 0.7em">点击升级</a></center>`);
+                $("#se-ftr").append(`<center><b>LGSE 更新</b><br>当前 <b><span style="color: #e67e22;">${cv}</span></b> --&gt; 最新 <b><span style="color: #52c41a;">${lv}</span></b><br><a href="https://lgse-source.netlify.app/LuoguShowEmoji.min.user.js" style="font-size: 0.7em">点击升级</a></center>`);
                 console.log("%c[lgse] Popped upgrade content", css);
             }
             if (f && cv > lv)
             {
-                $("#se-ftr").append(`<center><b>LGSE 更新</b><br>当前 <b><span style="color: #52c41a;">${cv}</span></b> &lt;-- 最新 <b><span style="color: #e67e22;">${lv}</span></b><br><a href="https://cdn.jsdelivr.net/gh/hyc-official/LuoguShowEmoji@latest/LuoguShowEmoji.min.user.js" style="font-size: 0.7em">点击降级</a></center>`);
+                $("#se-ftr").append(`<center><b>LGSE 更新</b><br>当前 <b><span style="color: #52c41a;">${cv}</span></b> &lt;-- 最新 <b><span style="color: #e67e22;">${lv}</span></b><br><a href="https://lgse-source.netlify.app/LuoguShowEmoji.min.user.js" style="font-size: 0.7em">点击降级</a></center>`);
                 console.log("%c[lgse] Popped downgrade content", css);
             }
             if (!f)
