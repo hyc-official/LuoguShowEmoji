@@ -39,14 +39,14 @@
         background-color: #ccc;
     }
     .se-ipt {
-        width: 100%;
+        width: calc(100% - 10px);
         height: 1.5em;
         margin-top: 0.25em;
         margin-bottom: 0.25em;
     }
     .se-dsp {
         width: auto;
-        height: calc(100% - 2em);
+        height: auto;
         overflow: auto;
     }
 </style>
@@ -78,4 +78,4 @@
     }
 </script>
 <div class="se-ent" id="se-ent" onclick="se_cge()"><img src="https://cdn.jsdelivr.net/gh/hyc-official/LuoguShowEmoji@latest/qqemoji/-cy.gif"></div>
-<div class="se-mnu" id="se-mnu"><input type="text" class="se-ipt" id="se-ipt" placeholder="搜索表情..." oninput="se_srh()"><div class="se-dsp" id="se-dsp"></div></div>
+<div class="se-mnu" id="se-mnu"><input type="text" class="se-ipt" id="se-ipt" placeholder="搜索表情..." oninput="se_srh()"><div class="se-dsp" id="se-dsp"></div><footer id="se-ftr"></footer></div>

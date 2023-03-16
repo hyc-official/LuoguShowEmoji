@@ -1,17 +1,34 @@
 // ==UserScript==
 // @name         Luogu Show Emoji
 // @namespace    blog.heyc.eu.org
-// @version      1.3.7
+// @version      1.4.0
 // @description  Show emoji in Luogu
 // @author       Heyc
-// @match        https://www.luogu.com.cn/
-// @match        https://www.luogu.com.cn/user/*
-// @match        https://www.luogu.com.cn/discuss/*
+// @match        https://www.luogu.com.cn/*
 // @icon         https://cdn.jsdelivr.net/gh/hyc-official/LGSE-page/favicon.ico
 // @require      https://code.jquery.com/jquery-3.6.0.min.js
-// @connect      cdn.jsdelivr.net
+// @connect      lgse-source.netlify.app
 // @grant        GM_xmlhttpRequest
 // ==/UserScript==
+
+var cv = "1.4.0";
+
+var reg = [new RegExp("/discuss/[0-9]+"), new RegExp("/user/[0-9]+#activity")];
+function chk()
+{
+    if (document.location.pathname == "/")
+    {
+        return true;
+    }
+    for (let i = 0; i < reg.length; i++)
+    {
+        if (reg[i].test(document.location.pathname))
+        {
+            return true;
+        }
+    }
+    return false;
+}
 
 var emoji = [
     "aini",
@@ -189,7 +206,6 @@ var emoji = [
 var css = "color: #E67E22;";
 var re = "(>[^<]*?)(\/%EMOJI%)([^<A-Za-z])";
 var rp = "$1<span style=\"color: #dfdfdf; font-size: 0.3em;\">$2</span><img src=\"https://cdn.jsdelivr.net/gh/hyc-official/LuoguShowEmoji@latest/qqemoji/-%EMOJI%.gif\" alt=\"/%EMOJI%\">$3";
-
 function run()
 {
     let cmts = [document.querySelectorAll(".am-comment-bd"), document.querySelectorAll(".content")];
@@ -219,16 +235,16 @@ function run()
     }
     console.log("%c[lgse] Replaced", css);
 }
-
 function start()
 {
     run();
     setTimeout(start, 1000);
 }
-
-start();
-// run();
-console.log("%c[lgse] Started", css);
+if (chk())
+{
+    console.log("%c[lgse] Started replacing", css);
+    start();
+}
 
 // ------------------------------
 
@@ -275,14 +291,14 @@ function srhemj()
         background-color: #ccc;
     }
     .se-ipt {
-        width: 100%;
+        width: calc(100% - 10px);
         height: 1.5em;
         margin-top: 0.25em;
         margin-bottom: 0.25em;
     }
     .se-dsp {
         width: auto;
-        height: calc(100% - 2em);
+        height: auto;
         overflow: auto;
     }
 </style>
@@ -314,28 +330,26 @@ function srhemj()
     }
 </script>
 <div class="se-ent" id="se-ent" onclick="se_cge()"><img src="https://cdn.jsdelivr.net/gh/hyc-official/LuoguShowEmoji@latest/qqemoji/-cy.gif"></div>
-<div class="se-mnu" id="se-mnu"><input type="text" class="se-ipt" id="se-ipt" placeholder="搜索表情..." oninput="se_srh()"><div class="se-dsp" id="se-dsp"></div></div>`);
+<div class="se-mnu" id="se-mnu"><input type="text" class="se-ipt" id="se-ipt" placeholder="搜索表情..." oninput="se_srh()"><div class="se-dsp" id="se-dsp"></div><footer id="se-ftr"></footer></div>`);
 }
-
 srhemj();
 
 // ------------------------------
 
-var cv = "1.3.7";
 var vr = new RegExp("[0-9]+\.[0-9]+\.[0-9]+", "g");
-
+var uri = "https://lgse-source.netlify.app/version";
 function upd()
 {
     GM_xmlhttpRequest({
         method: "GET",
-        url: "https://cdn.jsdelivr.net/gh/hyc-official/LuoguShowEmoji@latest/version",
+        url: uri,
         onload: function(response) {
             var f = true;
             var sc = response.status;
             if (sc != 200)
             {
                 f = false;
-                console.log(`%c[lgse] Get version failed: ${sc}`, css);
+                console.log(`%c[lgse] Get version failed: HTTP ${sc}, Request success`, css);
             }
             var lv = response.responseText;
             console.log("%c[lgse] Version: CV " + cv + " | LV " + lv, css);
@@ -345,26 +359,24 @@ function upd()
             }
             if (f && cv < lv)
             {
-                $(".lg-punch").append(`<center><b>LGSE 有新版本 <span style="color: #e67e22;">${lv}</span>，当前版本 <span style="color: #e67e22;">${cv}</span>，<a href="https://cdn.jsdelivr.net/gh/hyc-official/LuoguShowEmoji@latest/LuoguShowEmoji.min.user.js">点击这里安装新版本</a>。</b></center>`);
+                $("#se-ftr").append(`<center><b>LGSE 更新</b><br>当前 <b><span style="color: #e67e22;">${cv}</span></b> --&gt; 最新 <b><span style="color: #52c41a;">${lv}</span></b><br><a href="https://cdn.jsdelivr.net/gh/hyc-official/LuoguShowEmoji@latest/LuoguShowEmoji.min.user.js" style="font-size: 0.7em">点击升级</a></center>`);
                 console.log("%c[lgse] Popped upgrade content", css);
             }
             if (f && cv > lv)
             {
-                $(".lg-punch").append(`<center><b>LGSE 最新版本为 <span style="color: #e67e22;">${lv}</span>，小于当前版本 <span style="color: #e67e22;">${cv}</span>，<a href="https://cdn.jsdelivr.net/gh/hyc-official/LuoguShowEmoji@latest/LuoguShowEmoji.min.user.js">点击这里安装旧版（可选）</a>。</b></center>`);
+                $("#se-ftr").append(`<center><b>LGSE 更新</b><br>当前 <b><span style="color: #52c41a;">${cv}</span></b> &lt;-- 最新 <b><span style="color: #e67e22;">${lv}</span></b><br><a href="https://cdn.jsdelivr.net/gh/hyc-official/LuoguShowEmoji@latest/LuoguShowEmoji.min.user.js" style="font-size: 0.7em">点击降级</a></center>`);
                 console.log("%c[lgse] Popped downgrade content", css);
             }
             if (!f)
             {
-                $(".lg-punch").append(`<center><b><span style="color: #e67e22;">LGSE 自动检测更新失败！</span>当前版本：<span style="color: #e67e22;">${cv}</span></b></center>`);
+                $("#se-ftr").append(`<center><b>LGSE 更新</b><br>当前 <b><span style="color: #52c41a;">${cv}</span></b> --- <b><span style="color: #e67e22;">失败！</span></b></center>`);
             }
         },
         onerror: function(response) {
-            $(".lg-punch").append(`<center><b><span style="color: #e67e22;">LGSE 自动检测更新失败！</span>当前版本：<span style="color: #e67e22;">${cv}</span></b></center>`);
+            var sc = response.status;
+            console.log(`%c[lgse] Get version failed: HTTP ${sc}, Request failed`, css);
+            $("#se-ftr").append(`<center><b>LGSE 更新</b><br>当前 <b><span style="color: #52c41a;">${cv}</span></b> --- <b><span style="color: #e67e22;">失败！</span></b></center>`);
         },
     });
 }
-
-if (window.location.pathname == "/")
-{
-    upd();
-}
+upd();
