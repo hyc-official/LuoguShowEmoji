@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Luogu Show Emoji
 // @namespace    blog.heyc.eu.org
-// @version      2.0.0
+// @version      2.0.1
 // @description  Show emoji in Luogu
 // @author       Heyc
 // @match        https://www.luogu.com.cn/*
@@ -18,7 +18,7 @@
 var css = "color: #E67E22;";
 console.log("%c[lgse] Started", css);
 
-var cv = "2.0.0";
+var cv = "2.0.1";
 var reg_lg = [new RegExp("/discuss/[0-9]+"), new RegExp("/user/[0-9]+#activity")];
 
 function chk()
@@ -399,7 +399,7 @@ function upd()
 
 // ------------------------------
 
-var src = ["https://cdn.jsdelivr.net/gh/hyc-official/LuoguShowEmoji@latest/qqemoji/-%EMOJI%.gif", "https://ghproxy.com/https://github.com/hyc-official/LuoguShowEmoji/raw/master/qqemoji/-%EMOJI%.gif", "https://lgse-source.heyc.eu.org/qqemoji/-%EMOJI%.gif", "https://lgse-source.netlify.app/qqemoji/-%EMOJI%.gif"];
+var src = ["https://cdn.jsdelivr.net/gh/hyc-official/LuoguShowEmoji@latest/qqemoji/-%EMOJI%.gif", "https://ghproxy.com/https://raw.githubusercontent.com/hyc-official/LuoguShowEmoji/latest/qqemoji/-%EMOJI%.gif", "https://lgse-source.heyc.eu.org/qqemoji/-%EMOJI%.gif", "https://lgse-source.netlify.app/qqemoji/-%EMOJI%.gif"];
 
 function readst()
 {
