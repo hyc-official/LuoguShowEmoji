@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Luogu Show Emoji
 // @namespace    blog.heyc.eu.org
-// @version      2.0.3
+// @version      2.0.4
 // @description  Show emoji in Luogu
 // @author       Heyc
 // @match        https://www.luogu.com.cn/*
@@ -18,7 +18,7 @@
 var css = "color: #E67E22;";
 console.log("%c[lgse] Started", css);
 
-var cv = "2.0.3";
+var cv = "2.0.4";
 var reg_lg = [new RegExp("/discuss/[0-9]+"), new RegExp("/user/[0-9]+")];
 
 function chk()
@@ -58,6 +58,7 @@ var emoji = [
     "cd",
     "cg",
     "ch",
+    "cha",
     "chi",
     "cj",
     "cp",
@@ -108,6 +109,7 @@ var emoji = [
     "jk",
     "jw",
     "jx",
+    "jy",
     "ka",
     "kb",
     "kel",
@@ -138,9 +140,11 @@ var emoji = [
     "pj",
     "pp",
     "px",
+    "pz",
     "qd",
     "qiang",
     "qiao",
+    "qidao",
     "qq",
     "qt",
     "ruo",
@@ -149,6 +153,7 @@ var emoji = [
     "sh",
     "shd",
     "shl",
+    "shq",
     "shuai",
     "shui",
     "shxi",
@@ -204,6 +209,7 @@ var emoji = [
     "zq",
     "zt",
     "zuotj",
+    "zyj",
 ];
 var re = "(>[^<]*?)(\/%EMOJI%)([^<A-Za-z])";
 var rp = "$1<span style=\"color: #dfdfdf; font-size: 0.3em;\">$2</span><img src=\"%SOURCE%\" alt=\"/%EMOJI%\">$3";
@@ -297,7 +303,7 @@ var se_html = `<style>
 </style>
 <script>
 var st = 0;
-var emoji = ["aini","aiq","am","azgc","baiy","bangbangt","banzz","baojin","bb","bkx","bl","bp","bq","bs","bt","bu","bz","cd","cg","ch","chi","cj","cp","cs","cy","dan","dao","db","dg","dk","dl","doge","dx","dy","dz","ee","emm","fad","fade","fan","fd","fendou","fj","fn","fw","gg","gy","gz","hanx","haob","hb","hc","hd","hec","hhd","hn","hp","hq","hsh","ht","huaix","hx","jd","jh","jiaybb","jiaybs","jie","jk","jw","jx","ka","kb","kel","kf","kg","kk","kl","kt","kuk","kun","kzht","lb","lengh","lh","ll","lm","lq","lw","lyj","mdfq","mg","mm","ng","nkt","oh","oy","pch","pj","pp","px","qd","qiang","qiao","qq","qt","ruo","sa","se","sh","shd","shl","shuai","shui","shxi","sr","tiao","tl","tnl","tp","ts","tsh","tt","tuu","tx","ty","wbk","whl","wl","wn","wosl","wq","ws","wul","wx","wzm","xhx","xia","xig","xin","xjj","xk","xs","xu","xw","xy","xyx","yao","yb","yhh","yiw","yl","youl","youtj","yt","yun","yx","zhd","zhem","zhh","zhm","zhq","zj","zk","zq","zt","zuotj"];
+var emoji=["aini","aiq","am","azgc","baiy","bangbangt","banzz","baojin","bb","bkx","bl","bp","bq","bs","bt","bu","bz","cd","cg","ch","cha","chi","cj","cp","cs","cy","dan","dao","db","dg","dk","dl","doge","dx","dy","dz","ee","emm","fad","fade","fan","fd","fendou","fj","fn","fw","gg","gy","gz","hanx","haob","hb","hc","hd","hec","hhd","hn","hp","hq","hsh","ht","huaix","hx","jd","jh","jiaybb","jiaybs","jie","jk","jw","jx","jy","ka","kb","kel","kf","kg","kk","kl","kt","kuk","kun","kzht","lb","lengh","lh","ll","lm","lq","lw","lyj","mdfq","mg","mm","ng","nkt","oh","oy","pch","pj","pp","px","pz","qd","qiang","qiao","qidao","qq","qt","ruo","sa","se","sh","shd","shl","shq","shuai","shui","shxi","sr","tiao","tl","tnl","tp","ts","tsh","tt","tuu","tx","ty","wbk","whl","wl","wn","wosl","wq","ws","wul","wx","wzm","xhx","xia","xig","xin","xjj","xk","xs","xu","xw","xy","xyx","yao","yb","yhh","yiw","yl","youl","youtj","yt","yun","yx","zhd","zhem","zhh","zhm","zhq","zj","zk","zq","zt","zuotj","zyj"];
 var emjhtml = '<div class="se-emj"><img src=\"%SOURCE%\" alt=\"/%EMOJI%\"> | %EMOJI%</div>';
 function se_cge()
 {
