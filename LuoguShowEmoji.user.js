@@ -16,9 +16,15 @@
 // ==/UserScript==
 
 var css = "color: #E67E22;";
-console.log("%c[lgse] Started", css);
-
 var cv = "2.1.0";
+
+function LGSElog(str)
+{
+    console.log(`%c[lgse] ${str}`, css);
+}
+
+// ------------------------------
+
 var reg_lg = [new RegExp("/discuss/[0-9]+"), new RegExp("/user/[0-9]+")];
 
 function chk()
@@ -239,7 +245,7 @@ function run()
             cmts[x][i].innerHTML = str;
         }
     }
-    console.log("%c[lgse] Replaced", css);
+    LGSElog("Replaced");
 }
 function start()
 {
@@ -342,17 +348,17 @@ var upduri = "https://lgse-source.netlify.app/version";
 function upd_u(lv)
 {
     $("#se-ftr").append(`<center><b>LGSE 更新</b><br>当前 <b><span style="color: #e67e22;">${cv}</span></b> --&gt; 最新 <b><span style="color: #52c41a;">${lv}</span></b><br><a href="https://lgse-source.netlify.app/LuoguShowEmoji.min.user.js" style="font-size: 0.7em">点击升级</a></center>`);
-    console.log("%c[lgse] Popped upgrade content", css);
+    LGSElog("Popped upgrade content");
 }
 function upd_d(lv)
 {
     $("#se-ftr").append(`<center><b>LGSE 更新</b><br>当前 <b><span style="color: #52c41a;">${cv}</span></b> &lt;-- 最新 <b><span style="color: #e67e22;">${lv}</span></b><br><a href="https://lgse-source.netlify.app/LuoguShowEmoji.min.user.js" style="font-size: 0.7em">点击降级</a></center>`);
-    console.log("%c[lgse] Popped downgrade content", css);
+    LGSElog("Popped downgrade content");
 }
 function upd_f()
 {
     $("#se-ftr").append(`<center><b>LGSE 更新</b><br>当前 <b><span style="color: #52c41a;">${cv}</span></b> --- <b><span style="color: #e67e22;">失败！</span></b></center>`);
-    console.log("%c[lgse] Popped CFU failed content", css);
+    LGSElog("Popped CFU failed content");
 }
 function upd()
 {
@@ -365,13 +371,13 @@ function upd()
             var lv = response.responseText;
             if (sc == 200)
             {
-                console.log("%c[lgse] Version: CV " + cv + " | LV " + lv, css);
+                LGSElog(`Version: CV ${cv} | LV ${lv}`);
             }
             else
             {
                 f = false;
-                console.log(`%c[lgse] Get version failed: HTTP ${sc}, Request success`, css);
-                console.log(`%c[lgse] Return text: ${lv}`, css);
+                LGSElog(`Get version failed: HTTP ${sc}, Request success`);
+                LGSElog(`Return text: ${lv}`);
             }
             if (!vr.test(lv))
             {
@@ -392,7 +398,7 @@ function upd()
         },
         onerror: function(response) {
             var sc = response.status;
-            console.log(`%c[lgse] Get version failed: HTTP ${sc}, Request failed`, css);
+            LGSElog(`Get version failed: HTTP ${sc}, Request failed`);
             upd_f();
         },
     });
@@ -416,9 +422,18 @@ const stdef = {
 var st;
 function readst()
 {
-    let val = GM_getValue("settings", `{}`);
-    console.log(`%c[lgse] Settings: ${val}`, css);
-    st = JSON.parse(val);
+    try
+    {
+        let val = GM_getValue("settings", `{}`);
+        LGSElog(`[lgse] Settings: ${val}`);
+        st = JSON.parse(val);
+    }
+    catch (err)
+    {
+        LGSElog(`ERROR ${err}`);
+        LGSElog("Using default settings");
+        st = stdef;
+    }
     for (let i = 0; i < stlist.length; i++)
         if (st[stlist[i]] == null)
             st[stlist[i]] = stdef[stlist[i]];
@@ -426,12 +441,12 @@ function readst()
 
 function load_lg()
 {
-    console.log("%c[lgse] Loading settings for Luogu", css);
+    LGSElog("Loading settings for Luogu");
     rp = rp.replace(/%SOURCE%/g, src[st["img-src"]]);
     se_html = se_html.replace(/%SOURCE%/g, src[st["img-src"]]).replace(/%SOURCE_CY%/g, src[st["img-src"]].replace(/%EMOJI%/g, "cy"));
     if (st["rep-emj"] && chk())
     {
-        console.log("%c[lgse] Started replacing", css);
+        LGSElog("Started replacing");
         start();
     }
     if (st["srh-emj"])
@@ -450,7 +465,7 @@ function load_lg()
 }
 function load_st()
 {
-    console.log("%c[lgse] Loading settings for Settings page", css);
+    LGSElog("Loading settings for Settings page");
     document.getElementById("rep-emj").checked = st["rep-emj"];
     document.getElementById("srh-emj").checked = st["srh-emj"];
     document.getElementById("img-src").selectedIndex = st["img-src"];
@@ -469,13 +484,14 @@ function listen_st()
         GM_setValue("settings", stn);
         document.getElementById("status").style.color = "#52c41a";
         document.getElementById("status").innerText = "已保存";
-        console.log("%c[lgse] Saved", css);
+        LGSElog("Saved");
     }
     setInterval(listen_st, 1000);
 }
 
 try
 {
+    LGSElog("Started")
     readst();
     if (document.location.hostname == "www.luogu.com.cn")
     {
@@ -489,6 +505,6 @@ try
 }
 catch (err)
 {
-    console.log(`%c[lgse] ERROR ${err}`, css);
-    console.log("%c[lgse] Crash", css);
+    LGSElog(`ERROR ${err}`);
+    LGSElog("Crash");
 }
