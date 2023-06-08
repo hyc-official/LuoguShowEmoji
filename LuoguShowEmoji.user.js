@@ -23,6 +23,7 @@ function LGSElog(str)
     console.log(`%c[lgse] ${str}`, css);
 }
 
+
 // ------------------------------
 
 var reg_lg = [new RegExp("/discuss/[0-9]+"), new RegExp("/user/[0-9]+")];
@@ -425,7 +426,7 @@ function readst()
     try
     {
         let val = GM_getValue("settings", `{}`);
-        LGSElog(`[lgse] Settings: ${val}`);
+        LGSElog(`Settings: ${val}`);
         st = JSON.parse(val);
     }
     catch (err)
