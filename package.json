@@ -1,0 +1,39 @@
+{
+  "name": "luogushowemoji",
+  "version": "2.1.0",
+  "description": "Tampermonkey addons for Luogu to replace QQ emojis",
+  "main": "index.js",
+  "scripts": {
+    "build": "node script/build.cjs",
+    "lint": "npx eslint --ext .ts,.tsx,.js,.jsx ./src",
+    "fix": "npx eslint --ext .ts,.tsx,.js,.jsx ./src --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hyc-official/LuoguShowEmoji.git"
+  },
+  "keywords": [
+    "addons",
+    "luogu",
+    "Tampermonkey"
+  ],
+  "author": "Heyc",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/hyc-official/LuoguShowEmoji/issues"
+  },
+  "homepage": "https://github.com/hyc-official/LuoguShowEmoji#readme",
+  "devDependencies": {
+    "eslint": "^8.35.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jsdoc": "^40.0.1",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-vue": "^9.9.0"
+  },
+  "dependencies": {
+    "esbuild": "^0.17.10"
+  }
+}

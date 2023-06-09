@@ -1,0 +1,41 @@
+name: Build
+on: 
+  push: 
+    branches: 
+      - master
+permissions: 
+  contents: write
+jobs: 
+  build: 
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && startsWith( github.event.head_commit.message, 'VER' )
+    steps: 
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3.6.0
+        with: 
+          node-version: '16'
+      - name: Init git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "107044023+github-actions[bot]@users.noreply.github.com"
+          git fetch tags
+      - name: Install dependencies
+        run: npm install
+      - name: Build
+        run: npm run build
+      - name: Commit & Tag
+        run: |
+          cp ./dist/* .
+          git add *
+          sudo chmod +x ./script/tag.py
+          export VER=$(./script/tag.py)
+          git commit -m "Build: $VER"
+          git tag $VER
+          echo "VER=$VER" >> $GITHUB_ENV
+      - name: Push
+        run: git push origin master:latest --tags -f
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with: 
+          tag_name: ${{ env.VER }}
+          body_path: ./src/changelog.txt
