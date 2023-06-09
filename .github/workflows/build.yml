@@ -26,7 +26,8 @@ jobs:
       - name: Commit & Tag
         run: |
           cp ./dist/* .
-          git add *
+          git add LuoguShowEmoji.min.user.js
+          git add version
           sudo chmod +x ./script/tag.py
           export VER=$(./script/tag.py)
           git commit -m "Build: $VER"
