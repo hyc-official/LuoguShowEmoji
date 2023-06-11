@@ -47,7 +47,7 @@ jobs:
           tag_name: ${{ env.VER }}
           body_path: ./src/changelog.txt
       - name: Page
-        run: cp qqemoji -r dist
+        run: cp ./src/changelog.txt -r ./dist
       - name: Page deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with: 
