@@ -1,6 +1,6 @@
 import { LGSElog, request } from "./utils.js";
 
-const cv = "2.1.0";
+const cv = "2.1.1";
 
 // ------------------------------
 
