@@ -10,10 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && startsWith( github.event.head_commit.message, 'VER' )
     steps: 
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3.6.0
+      - name: Install Node
+        uses: actions/setup-node@v3.6.0
         with: 
           node-version: '16'
+      - name: Checkout
+        uses: actions/checkout@v3
       - name: Init git
         run: |
           git config --global user.name "github-actions[bot]"
@@ -22,10 +24,13 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Build
-        run: npm run build
+        run: |
+          npm run build
+          cp ./dist/* .
+          mkdir ../res
+          cp ./dist/* ../res
       - name: Commit & Tag
         run: |
-          cp ./dist/* .
           git add LuoguShowEmoji.min.user.js
           git add version
           sudo chmod +x ./script/tag.py
@@ -38,5 +43,14 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v1
         with: 
+          name: Version ${{ env.VER }}
           tag_name: ${{ env.VER }}
           body_path: ./src/changelog.txt
+      - name: Page
+        run: cp qqemoji -r dist
+      - name: Page deploy
+        uses: JamesIves/github-pages-deploy-action@v4
+        with: 
+          folder: dist
+          git-config-name: github-actions[bot]
+          git-config-email: 41898282+github-actions[bot]@users.noreply.github.com
