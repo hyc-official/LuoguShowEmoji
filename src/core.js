@@ -1,14 +1,6 @@
-const css = "color: #E67E22;";
+import { LGSElog, request } from "./utils.js";
+
 const cv = "2.1.0";
-
-/**
- *
- * @param str
- */
-function LGSElog(str) {
-    console.log(`%c[lgse] ${str}`, css);
-}
-
 
 // ------------------------------
 
@@ -264,7 +256,7 @@ let se_html = `<style>
     background-color: #fff;
     padding: 5px;
     display: none;
-    width: max(30%, 300px);
+    width: max(35%, 300px);
     height: calc(100% - 130px);
     border: 1px solid #0e90d2;
 }
@@ -295,11 +287,19 @@ let se_html = `<style>
 var st = 0;
 var emoji=["aini","aiq","am","azgc","baiy","bangbangt","banzz","baojin","bb","bkx","bl","bp","bq","bs","bt","bu","bz","cd","cg","ch","cha","chi","cj","cp","cs","cy","dan","dao","dax","db","dg","dk","dl","doge","dx","dy","dz","ee","emm","fad","fan","fd","fendou","fj","fn","fw","gg","gy","gz","hanx","haob","hb","hc","hd","hec","hhd","hn","hp","hq","hsh","ht","huaix","hx","jd","jh","jiaybb","jiaybs","jie","jk","jw","jx","jy","ka","kb","kel","kf","kg","kk","kl","kt","kuk","kun","kzht","lb","lengh","lh","ll","lm","lq","lw","lyj","mdfq","mg","mm","ng","nkt","oh","oy","pch","pj","pp","px","pz","qd","qiang","qiao","qidao","qq","qt","ruo","sa","se","sh","shd","shl","shq","shuai","shui","shxi","sr","tiao","tl","tnl","tp","ts","tsh","tt","tuu","tx","ty","wbk","whl","wl","wn","wosl","wq","ws","wul","wx","wzm","xhx","xia","xig","xin","xjj","xk","xs","xu","xw","xy","xyx","yao","yb","yhh","yiw","yl","youl","youtj","yt","yun","yx","zhd","zhem","zhh","zhm","zhq","zj","zk","zq","zt","zuotj","zyj"];
 var emjhtml = '<div class="se-emj"><img src="%SOURCE%" alt="/%EMOJI%" width="28px" height="28px"> | %EMOJI%</div>';
+var srh = %SRH%;
+if (!srh)
+{
+    document.getElementById("se-srh").style.display = "none";
+}
 function se_cge()
 {
-    st = 1 - st;
-    document.getElementById("se-mnu").style.display = (st == 0 ? "none" : "grid");
-    if (st == 1)
+    if (srh || document.getElementById("se-upd").innerText != "")
+    {
+        st = 1 - st;
+        document.getElementById("se-mnu").style.display = (st == 0 ? "none" : "grid");
+    }
+    if (srh && st == 1)
     {
         se_srh();
     }
@@ -318,8 +318,16 @@ function se_srh()
     document.getElementById("se-dsp").innerHTML = ih;
 }
 </script>
-<div class="se-ent" id="se-ent" onclick="%CLICK%" oncontextmenu="window.open('https://lgse.netlify.app/lgse-settings-${cv}.html')" title="右键打开设置"><img src="%SOURCE_CY%" width="28px" height="28px"></div>
-<div class="se-mnu" id="se-mnu"><input type="text" class="se-ipt" id="se-ipt" placeholder="搜索表情..." oninput="se_srh()"><div class="se-dsp" id="se-dsp"></div><footer id="se-ftr"></footer></div>`;
+<div class="se-ent" id="se-ent" onclick="se_cge()" oncontextmenu="window.open('https://lgse.netlify.app/lgse-settings-${cv}.html')" title="右键打开设置" status="ordinary">
+    <img src="%SOURCE_CY%" width="28px" height="28px">
+</div>
+<div class="se-mnu" id="se-mnu">
+    <div class="se-dsp" id="se-srh">
+        <input type="text" class="se-ipt" id="se-ipt" placeholder="搜索表情..." oninput="se_srh()">
+        <div class="se-dsp" id="se-dsp"></div>
+    </div>
+    <center><div class="se-dsp" id="se-upd"></div></center>
+</div>`;
 /**
  *
  */
@@ -330,13 +338,20 @@ function srhemj() {
 // ------------------------------
 
 const vr = /[0-9]+\.[0-9]+\.[0-9]+/g;
-const upduri = "https://lgse-source.netlify.app/version";
+const updurl = "https://lgse-source.netlify.app/version";
+const updsvg = `<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="28px" width="28px">
+    <circle cx="14" cy="14" r="14" stroke-width="0" fill="#fe4c61" />
+    <line x1="14" y1="5" x2="5" y2="14" stroke="#fff" stroke-width="3" stroke-linecap="round" />
+    <line x1="14" y1="5" x2="23" y2="14" stroke="#fff" stroke-width="3" stroke-linecap="round" />
+    <line x1="14" y1="5" x2="14" y2="23" stroke="#fff" stroke-width="3" stroke-linecap="round" />
+</svg>`;
+let entimg = "<img src=\"%SOURCE_CY%\" width=\"28px\" height=\"28px\">";
 /**
  *
  * @param lv
  */
 function upd_u(lv) {
-    $("#se-ftr").append(`<center><b>LGSE 更新</b><br>当前 <b><span style="color: #e67e22;">${cv}</span></b> --&gt; 最新 <b><span style="color: #52c41a;">${lv}</span></b><br><a href="https://lgse-source.netlify.app/LuoguShowEmoji.min.user.js" style="font-size: 0.7em">点击升级</a></center>`);
+    $("#se-upd").append(`<center><b>LGSE 更新</b><br>当前 <b><span style="color: #e67e22;">${cv}</span></b> --&gt; 最新 <b><span style="color: #52c41a;">${lv}</span></b><br><a href="https://lgse-source.netlify.app/LuoguShowEmoji.min.user.js" style="font-size: 0.7em">点击升级</a></center>`);
     LGSElog("Popped upgrade content");
 }
 /**
@@ -344,53 +359,48 @@ function upd_u(lv) {
  * @param lv
  */
 function upd_d(lv) {
-    $("#se-ftr").append(`<center><b>LGSE 更新</b><br>当前 <b><span style="color: #52c41a;">${cv}</span></b> &lt;-- 最新 <b><span style="color: #e67e22;">${lv}</span></b><br><a href="https://lgse-source.netlify.app/LuoguShowEmoji.min.user.js" style="font-size: 0.7em">点击降级</a></center>`);
+    $("#se-upd").append(`<center><b>LGSE 更新</b><br>当前 <b><span style="color: #52c41a;">${cv}</span></b> &lt;-- 最新 <b><span style="color: #e67e22;">${lv}</span></b><br><a href="https://lgse-source.netlify.app/LuoguShowEmoji.min.user.js" style="font-size: 0.7em">点击降级</a></center>`);
     LGSElog("Popped downgrade content");
 }
 /**
  *
  */
 function upd_f() {
-    $("#se-ftr").append(`<center><b>LGSE 更新</b><br>当前 <b><span style="color: #52c41a;">${cv}</span></b> --- <b><span style="color: #e67e22;">失败！</span></b></center>`);
+    $("#se-upd").append(`<center><b>LGSE 更新</b><br>当前 <b><span style="color: #52c41a;">${cv}</span></b> --- <b><span style="color: #e67e22;">失败！</span></b></center>`);
     LGSElog("Popped CFU failed content");
 }
 /**
  *
  */
-function upd() {
-    GM_xmlhttpRequest({
-        method: "GET",
-        url: upduri,
-        onload(response) {
-            let f = true;
-            const sc = response.status;
-            const lv = response.responseText;
-            if (sc === 200) {
-                LGSElog(`Version: CV ${cv} | LV ${lv}`);
-            } else {
-                f = false;
-                LGSElog(`Get version failed: HTTP ${sc}, Request success`);
-                LGSElog(`Return text: ${lv}`);
-            }
-            if (!vr.test(lv)) {
-                f = false;
-            }
-            if (f && cv < lv) {
-                upd_u(lv);
-            }
-            if (f && cv > lv) {
-                upd_d(lv);
-            }
-            if (!f) {
-                upd_f();
-            }
-        },
-        onerror(response) {
-            const sc = response.status;
-            LGSElog(`Get version failed: HTTP ${sc}, Request failed`);
-            upd_f();
-        },
-    });
+function upd_blink() {
+    if (document.getElementById("se-ent").status === null || document.getElementById("se-ent").status === "ordinary") {
+        document.getElementById("se-ent").innerHTML = updsvg;
+        document.getElementById("se-ent").status = "update-icon";
+    } else {
+        document.getElementById("se-ent").innerHTML = entimg;
+        document.getElementById("se-ent").status = "ordinary";
+    }
+    LGSElog(`upd_blink ${document.getElementById("se-ent").status}`);
+    setTimeout(upd_blink, 1000);
+}
+/**
+ *
+ * @param res
+ */
+function upd(res) {
+    if (!res.error && res.status === 200 && vr.test(res.content)) {
+        LGSElog(`Get version success: CV ${cv} | LV ${res.content}`);
+        if (res.content > cv) {
+            upd_u(res.content);
+            upd_blink();
+        }
+        if (res.content < cv) {
+            upd_d(res.content);
+        }
+    } else {
+        LGSElog("Get version failed");
+        upd_f();
+    }
 }
 
 // ------------------------------
@@ -433,18 +443,19 @@ function load_lg() {
     LGSElog("Loading settings for Luogu");
     rp = rp.replace(/%SOURCE%/g, src[st["img-src"]]);
     se_html = se_html.replace(/%SOURCE%/g, src[st["img-src"]]).replace(/%SOURCE_CY%/g, src[st["img-src"]].replace(/%EMOJI%/g, "cy"));
+    entimg = entimg.replace(/%SOURCE_CY%/g, src[st["img-src"]].replace(/%EMOJI%/g, "cy"));
     if (st["rep-emj"] && chk()) {
         LGSElog("Started replacing");
         start();
     }
     if (st["srh-emj"]) {
-        se_html = se_html.replace(/%CLICK%/g, "se_cge()");
+        se_html = se_html.replace(/%SRH%/g, "true");
     } else {
-        se_html = se_html.replace(/%CLICK%/g, `window.open('https://lgse.netlify.app/lgse-settings-${cv}.html')`);
+        se_html = se_html.replace(/%SRH%/g, "false");
     }
     srhemj();
-    if (st["srh-emj"] && st["chk-upd"]) {
-        upd();
+    if (st["chk-upd"]) {
+        request(updurl, upd);
     }
 }
 /**
