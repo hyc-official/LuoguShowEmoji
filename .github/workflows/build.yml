@@ -40,12 +40,16 @@ jobs:
           echo "VER=$VER" >> $GITHUB_ENV
       - name: Push
         run: git push origin master:latest --tags -f
+      - name: Generate release note
+        run: |
+          echo "### 更新日志 | Update log" > release-note.txt
+          cat ./src/changelog.txt >> release-note.txt
       - name: Release
         uses: softprops/action-gh-release@v1
         with: 
           name: Version ${{ env.VER }}
           tag_name: ${{ env.VER }}
-          body_path: ./src/changelog.txt
+          body_path: ./release-note.txt
       - name: Page
         run: cp ./src/changelog.txt -r ./dist
       - name: Page deploy
