@@ -4,7 +4,7 @@ const cv = "2.1.1";
 
 // ------------------------------
 
-const reg_lg = [/\/discuss\/[0-9]+/, /\/user\/[0-9]+/];
+const reg_lg = [/\/discuss\/[0-9]+/, /\/user\/[0-9]+/, /\/chat.*/];
 
 /**
  *
@@ -196,22 +196,25 @@ const emoji = [
     "zyj",
 ];
 const re = "(>[^<]*?)(/%EMOJI%)([^<A-Za-z])";
-let rp = "$1<span style=\"color: #dfdfdf; font-size: 0.3em;\">$2</span><img src=\"%SOURCE%\" alt=\"/%EMOJI%\" width=\"28px\" height=\"28px\">$3";
+let rp = "$1<span style=\"color: #c8c8c8; font-size: 0.3em;\">$2</span><img src=\"%SOURCE%\" alt=\"/%EMOJI%\" width=\"28px\" height=\"28px\">$3";
 /**
  *
  */
 function run() {
-    const cmts = [document.querySelectorAll(".am-comment-bd"), document.querySelectorAll(".content")];
+    const cmts = [document.querySelectorAll(".am-comment-bd"), document.querySelectorAll(".content"), document.querySelectorAll(".message-block")];
+    let flag = false;
     for (let x = 0; x < cmts.length; x++) {
         for (let i = 0; i < cmts[x].length; i++) {
             if (cmts[x][i].innerHTML.indexOf("<!--LGSE Replaced-->") === -1) {
                 let str = cmts[x][i].innerHTML;
+                console.log(str);
                 for (let j = emoji.length - 1; j >= 0; j--) {
                     str = str.replace(new RegExp(`(/${emoji[j]})(<span)`, "g"), "$1 $2");
                     str = str.replace(new RegExp(`(/${emoji[j]})(</{0,1}[^s/])`, "g"), "$1 $2");
                     const regex = new RegExp(re.replace(/%EMOJI%/g, emoji[j]), "g");
                     while (regex.test(str)) {
                         str = str.replace(regex, rp.replace(/%EMOJI%/g, emoji[j]));
+                        flag = true;
                     }
                 }
                 str += "<!--LGSE Replaced-->";
@@ -219,7 +222,9 @@ function run() {
             }
         }
     }
-    LGSElog("Replaced");
+    if (flag) {
+        LGSElog("Replaced");
+    }
 }
 /**
  *
