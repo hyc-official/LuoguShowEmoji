@@ -1,4 +1,6 @@
-import { LGSElog, request, indep } from "./utils.js";
+import {
+    LGSElog, request, indep, LGSE_Start,
+} from "./utils.js";
 
 const cv = "2.1.3";
 
@@ -515,16 +517,37 @@ function listen_st() {
     setInterval(listen_st, 1000);
 }
 
-try {
+/**
+ *
+ */
+function init() {
     LGSElog("Started");
     readst();
-    if (document.location.hostname === "www.luogu.com.cn") {
+}
+/**
+ *
+ */
+function LG() {
+    try {
+        init();
         load_lg();
-    } else {
+    } catch (err) {
+        LGSElog(`ERROR ${err}`);
+        LGSElog("Crash");
+    }
+}
+/**
+ *
+ */
+function ST() {
+    try {
+        init();
         load_st();
         listen_st();
+    } catch (err) {
+        LGSElog(`ERROR ${err}`);
+        LGSElog("Crash");
     }
-} catch (err) {
-    LGSElog(`ERROR ${err}`);
-    LGSElog("Crash");
 }
+
+LGSE_Start(LG, ST);

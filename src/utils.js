@@ -55,4 +55,19 @@ function request(url, call) {
     }
 }
 
-export { LGSElog, request, indep };
+/**
+ *
+ * @param LG
+ * @param ST
+ */
+function LGSE_Start(LG, ST) {
+    if (/.*\.luogu\.*/.test(document.location.hostname)) {
+        LG();
+    } else {
+        ST();
+    }
+}
+
+export {
+    LGSElog, request, indep, LGSE_Start,
+};
