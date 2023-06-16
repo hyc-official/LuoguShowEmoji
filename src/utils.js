@@ -1,3 +1,5 @@
+const indep = true;
+
 const css = "color: #E67E22;";
 
 /**
@@ -53,4 +55,4 @@ function request(url, call) {
     }
 }
 
-export { LGSElog, request };
+export { LGSElog, request, indep };

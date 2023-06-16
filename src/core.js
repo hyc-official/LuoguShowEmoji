@@ -1,4 +1,4 @@
-import { LGSElog, request } from "./utils.js";
+import { LGSElog, request, indep } from "./utils.js";
 
 const cv = "2.1.2";
 
@@ -207,7 +207,6 @@ function run() {
         for (let i = 0; i < cmts[x].length; i++) {
             if (cmts[x][i].innerHTML.indexOf("<!--LGSE Replaced-->") === -1) {
                 let str = cmts[x][i].innerHTML;
-                console.log(str);
                 for (let j = emoji.length - 1; j >= 0; j--) {
                     str = str.replace(new RegExp(`(/${emoji[j]})(<span)`, "g"), "$1 $2");
                     str = str.replace(new RegExp(`(/${emoji[j]})(</{0,1}[^s/])`, "g"), "$1 $2");
@@ -289,7 +288,7 @@ let se_html = `<style>
 }
 </style>
 <script>
-var st = 0;
+var st_mnu = 0, st_cgl = 0;
 var emoji=["aini","aiq","am","azgc","baiy","bangbangt","banzz","baojin","bb","bkx","bl","bp","bq","bs","bt","bu","bz","cd","cg","ch","cha","chi","cj","cp","cs","cy","dan","dao","dax","db","dg","dk","dl","doge","dx","dy","dz","ee","emm","fad","fan","fd","fendou","fj","fn","fw","gg","gy","gz","hanx","haob","hb","hc","hd","hec","hhd","hn","hp","hq","hsh","ht","huaix","hx","jd","jh","jiaybb","jiaybs","jie","jk","jw","jx","jy","ka","kb","kel","kf","kg","kk","kl","kt","kuk","kun","kzht","lb","lengh","lh","ll","lm","lq","lw","lyj","mdfq","mg","mm","ng","nkt","oh","oy","pch","pj","pp","px","pz","qd","qiang","qiao","qidao","qq","qt","ruo","sa","se","sh","shd","shl","shq","shuai","shui","shxi","sr","tiao","tl","tnl","tp","ts","tsh","tt","tuu","tx","ty","wbk","whl","wl","wn","wosl","wq","ws","wul","wx","wzm","xhx","xia","xig","xin","xjj","xk","xs","xu","xw","xy","xyx","yao","yb","yhh","yiw","yl","youl","youtj","yt","yun","yx","zhd","zhem","zhh","zhm","zhq","zj","zk","zq","zt","zuotj","zyj"];
 var emjhtml = '<div class="se-emj"><img src="%SOURCE%" alt="/%EMOJI%" width="28px" height="28px"> | %EMOJI%</div>';
 var srh = %SRH%;
@@ -297,14 +296,14 @@ if (!srh)
 {
     document.getElementById("se-srh").style.display = "none";
 }
-function se_cge()
+function se_mnu()
 {
     if (srh || document.getElementById("se-upd").innerText != "")
     {
-        st = 1 - st;
-        document.getElementById("se-mnu").style.display = (st == 0 ? "none" : "grid");
+        st_mnu = 1 - st_mnu;
+        document.getElementById("se-mnu").style.display = (st_mnu == 0 ? "none" : "grid");
     }
-    if (srh && st == 1)
+    if (srh && st_mnu == 1)
     {
         se_srh();
     }
@@ -322,8 +321,13 @@ function se_srh()
     }
     document.getElementById("se-dsp").innerHTML = ih;
 }
+function se_cgl()
+{
+    st_cgl = 1 - st_cgl;
+    document.getElementById("se-cgl").style.display = (st_cgl == 0 ? "none" : "block");
+}
 </script>
-<div class="se-ent" id="se-ent" onclick="se_cge()" oncontextmenu="window.open('https://lgse.netlify.app/lgse-settings-${cv}.html')" title="右键打开设置" status="ordinary">
+<div class="se-ent" id="se-ent" onclick="se_mnu()" oncontextmenu="window.open('https://lgse.netlify.app/lgse-settings-${cv}.html')" title="右键打开设置" status="ordinary">
     <img src="%SOURCE_CY%" width="28px" height="28px">
 </div>
 <div class="se-mnu" id="se-mnu">
@@ -331,7 +335,10 @@ function se_srh()
         <input type="text" class="se-ipt" id="se-ipt" placeholder="搜索表情..." oninput="se_srh()">
         <div class="se-dsp" id="se-dsp"></div>
     </div>
-    <center><div class="se-dsp" id="se-upd"></div></center>
+    <div class="se-dsp" id="se-upd" style="display: none;">
+        <center id="se-upm"><b>LGSE 更新</b><br></center>
+        <div class="se-dsp" id="se-cgl" style="display: none;"><center><b>更新日志</b><br></center></div>
+    </div>
 </div>`;
 /**
  *
@@ -344,6 +351,7 @@ function srhemj() {
 
 const vr = /[0-9]+\.[0-9]+\.[0-9]+/g;
 const updurl = "https://lgse-source.netlify.app/version";
+const cglurl = "https://lgse-source.netlify.app/changelog.txt";
 const updsvg = `<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="28px" width="28px">
     <circle cx="14" cy="14" r="14" stroke-width="0" fill="#fe4c61" />
     <line x1="14" y1="5" x2="5" y2="14" stroke="#fff" stroke-width="3" stroke-linecap="round" />
@@ -356,7 +364,7 @@ let entimg = "<img src=\"%SOURCE_CY%\" width=\"28px\" height=\"28px\">";
  * @param lv
  */
 function upd_u(lv) {
-    $("#se-upd").append(`<center><b>LGSE 更新</b><br>当前 <b><span style="color: #e67e22;">${cv}</span></b> --&gt; 最新 <b><span style="color: #52c41a;">${lv}</span></b><br><a href="https://lgse-source.netlify.app/LuoguShowEmoji.min.user.js" style="font-size: 0.7em">点击升级</a></center>`);
+    $("#se-upm").append(`当前 <b><span style="color: #e67e22;">${cv}</span></b> --&gt; 最新 <b><span style="color: #52c41a;">${lv}</span></b><br><a href="https://lgse-source.netlify.app/LuoguShowEmoji.min.user.js" style="font-size: 0.7em">点击升级</a> <a onclick="se_cgl()" style="font-size: 0.7em">显示/隐藏更新日志</a>`);
     LGSElog("Popped upgrade content");
 }
 /**
@@ -364,14 +372,14 @@ function upd_u(lv) {
  * @param lv
  */
 function upd_d(lv) {
-    $("#se-upd").append(`<center><b>LGSE 更新</b><br>当前 <b><span style="color: #52c41a;">${cv}</span></b> &lt;-- 最新 <b><span style="color: #e67e22;">${lv}</span></b><br><a href="https://lgse-source.netlify.app/LuoguShowEmoji.min.user.js" style="font-size: 0.7em">点击降级</a></center>`);
+    $("#se-upm").append(`当前 <b><span style="color: #52c41a;">${cv}</span></b> &lt;-- 最新 <b><span style="color: #e67e22;">${lv}</span></b><br><a href="https://lgse-source.netlify.app/LuoguShowEmoji.min.user.js" style="font-size: 0.7em">点击降级</a> <a onclick="se_cgl()" style="font-size: 0.7em">显示/隐藏更新日志</a>`);
     LGSElog("Popped downgrade content");
 }
 /**
  *
  */
 function upd_f() {
-    $("#se-upd").append(`<center><b>LGSE 更新</b><br>当前 <b><span style="color: #52c41a;">${cv}</span></b> --- <b><span style="color: #e67e22;">失败！</span></b></center>`);
+    $("#se-upm").append(`当前 <b><span style="color: #52c41a;">${cv}</span></b> --- <b><span style="color: #e67e22;">失败！</span></b>`);
     LGSElog("Popped CFU failed content");
 }
 /**
@@ -385,8 +393,19 @@ function upd_blink() {
         document.getElementById("se-ent").innerHTML = entimg;
         document.getElementById("se-ent").status = "ordinary";
     }
-    LGSElog(`upd_blink ${document.getElementById("se-ent").status}`);
     setTimeout(upd_blink, 1000);
+}
+/**
+ *
+ * @param res
+ */
+function upd_cglog(res) {
+    if (!res.error && res.status === 200) {
+        LGSElog("Get update log success");
+        $("#se-cgl").append(marked.parse(res.content));
+    } else {
+        LGSElog("Get update log failed");
+    }
 }
 /**
  *
@@ -401,6 +420,10 @@ function upd(res) {
         }
         if (res.content < cv) {
             upd_d(res.content);
+        }
+        if (res.content !== cv) {
+            document.getElementById("se-upd").style.display = "block";
+            request(cglurl, upd_cglog);
         }
     } else {
         LGSElog("Get version failed");
@@ -459,7 +482,7 @@ function load_lg() {
         se_html = se_html.replace(/%SRH%/g, "false");
     }
     srhemj();
-    if (st["chk-upd"]) {
+    if (st["chk-upd"] && indep) {
         request(updurl, upd);
     }
 }
