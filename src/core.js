@@ -1,6 +1,6 @@
 import { LGSElog, request, indep } from "./utils.js";
 
-const cv = "2.1.2";
+const cv = "2.1.3";
 
 // ------------------------------
 
