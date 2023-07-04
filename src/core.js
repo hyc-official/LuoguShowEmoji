@@ -474,7 +474,7 @@ const src = ["https://cdn.jsdelivr.net/gh/hyc1230/qqemoji/56x56/%EMOJI%.gif", "h
 const stdef = {
         "rep-emj": true,
         "srh-emj": true,
-        "img-src": 0,
+        "img-src": 3,
         "chk-upd": true,
     },
     stlist = [
