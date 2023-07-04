@@ -213,9 +213,9 @@ function run() {
                 let str = cmts[x][i].innerHTML;
                 for (let j = emoji.length - 1; j >= 0; j--) {
                     str = str.replace(new RegExp(`(/${emoji[j]})(<span)`, "g"), "$1 $2")
-                             .replace(new RegExp(`(/${emoji[j]})(</{0,1}[^s/])`, "g"), "$1 $2");
-                    const rg1 = new RegExp(re1.replace(/%EMOJI%/g, emoji[j]), "g"), 
-                          rg2 = new RegExp(re2.replace(/%EMOJI%/g, emoji[j]), "g");
+                        .replace(new RegExp(`(/${emoji[j]})(</{0,1}[^s/])`, "g"), "$1 $2");
+                    const rg1 = new RegExp(re1.replace(/%EMOJI%/g, emoji[j]), "g"),
+                        rg2 = new RegExp(re2.replace(/%EMOJI%/g, emoji[j]), "g");
                     while (rg1.test(str)) {
                         str = str.replace(rg1, rp.replace(/%EMOJI%/g, emoji[j]));
                         flag = true;
@@ -327,30 +327,40 @@ let se_html = `<style>
     </div>
 </div>
 <button class="se-clr" id="se-clr">清除 LGSE 缓存</button>`;
-let st_mnu = 0, st_cgl = 0;
-let emjhtml = '<div class="se-emj"><img src="%SOURCE%" alt="/%EMOJI%" width="28px" height="28px"> | %EMOJI%</div>';
+let st_mnu = 0,
+    st_cgl = 0;
+let emjhtml = "<div class=\"se-emj\"><img src=\"%SOURCE%\" alt=\"/%EMOJI%\" width=\"28px\" height=\"28px\"> | %EMOJI%</div>";
+/**
+ *
+ */
 function se_srh() {
-    let wd = document.getElementById("se-ipt").value;
+    const wd = document.getElementById("se-ipt").value;
     let ih = "";
     for (let i = 0; i < emoji.length; i++) {
-        if (wd == "" || emoji[i].replace(wd, "") != emoji[i]) {
+        if (wd === "" || emoji[i].replace(wd, "") !== emoji[i]) {
             ih += emjhtml.replace(/%EMOJI%/g, emoji[i]);
         }
     }
     document.getElementById("se-dsp").innerHTML = ih;
 }
+/**
+ *
+ */
 function se_mnu() {
-    if (st["srh-emj"] || document.getElementById("se-upd").innerText != "") {
+    if (st["srh-emj"] || document.getElementById("se-upd").innerText !== "") {
         st_mnu = 1 - st_mnu;
-        document.getElementById("se-mnu").style.display = (st_mnu == 0 ? "none" : "grid");
+        document.getElementById("se-mnu").style.display = (st_mnu === 0 ? "none" : "grid");
     }
-    if (st["srh-emj"] && st_mnu == 1) {
+    if (st["srh-emj"] && st_mnu === 1) {
         se_srh();
     }
 }
+/**
+ *
+ */
 function se_cgl() {
     st_cgl = 1 - st_cgl;
-    document.getElementById("se-cgl").style.display = (st_cgl == 0 ? "none" : "block");
+    document.getElementById("se-cgl").style.display = (st_cgl === 0 ? "none" : "block");
 }
 /**
  *
@@ -403,7 +413,7 @@ let entimg = "<img src=\"%SOURCE_CY%\" width=\"28px\" height=\"28px\">";
  */
 function upd_u(lv) {
     $("#se-upm").append(`当前 <b><span style="color: #e67e22;">${cv}</span></b> --&gt; 最新 <b><span style="color: #52c41a;">${lv}</span></b><br><a href="https://lgse-source.netlify.app/LuoguShowEmoji.min.user.js" style="font-size: 0.7em">点击升级</a> <a id="se_cgl" style="font-size: 0.7em">显示/隐藏更新日志</a>`);
-    document.getElementById("se_cgl").addEventListener("click", () => {se_cgl();});
+    document.getElementById("se_cgl").addEventListener("click", () => { se_cgl(); });
     LGSElog("Popped upgrade content");
 }
 /**
@@ -412,7 +422,7 @@ function upd_u(lv) {
  */
 function upd_d(lv) {
     $("#se-upm").append(`当前 <b><span style="color: #52c41a;">${cv}</span></b> &lt;-- 最新 <b><span style="color: #e67e22;">${lv}</span></b><br><a href="https://lgse-source.netlify.app/LuoguShowEmoji.min.user.js" style="font-size: 0.7em">点击降级</a> <a id="se_cgl" style="font-size: 0.7em">显示/隐藏更新日志</a>`);
-    document.getElementById("se_cgl").addEventListener("click", () => {se_cgl();});
+    document.getElementById("se_cgl").addEventListener("click", () => { se_cgl(); });
     LGSElog("Popped downgrade content");
 }
 /**

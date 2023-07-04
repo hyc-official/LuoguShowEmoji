@@ -15,14 +15,14 @@ function LGSElog(str) {
  * @param key
  */
 function getcache(key) {
-    let res = {};
+    const res = {};
     LGSElog(`Finding cache: ${key}`);
     const d = new Date(),
         e = new Date(),
         n = new Date().getTime();
     d.setTime(parseInt(GM_getValue(`cache/time_${key}`, "0"), 10));
     e.setTime(parseInt(GM_getValue(`cache/expired`, "0"), 10));
-    if (d == 0) {
+    if (d === 0) {
         LGSElog("Cache miss");
         res.status = "miss";
     } else if (n - d > 86400000 || d < e) {
@@ -69,7 +69,7 @@ function request(url, call) {
             url,
             onload(response) {
                 LGSElog(`Request success: HTTP ${response.status}, Content: ${response.responseText}`);
-                res = {
+                const res = {
                     error: false,
                     status: response.status,
                     content: response.responseText,
