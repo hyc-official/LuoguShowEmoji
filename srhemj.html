@@ -72,7 +72,7 @@
 </div>
 <div class="se-mnu" id="se-mnu">
     <div class="se-dsp" id="se-srh">
-        <input type="text" class="se-ipt" id="se-ipt" placeholder="搜索表情..." oninput="se_srh()">
+        <input type="text" class="se-ipt" id="se-ipt" placeholder="搜索表情...">
         <div class="se-dsp" id="se-dsp"></div>
     </div>
     <div class="se-dsp" id="se-upd" style="display: none;">
@@ -81,49 +81,3 @@
     </div>
 </div>
 <button class="se-clr" id="se-clr">清除 LGSE 缓存</button>
-<script>
-    var st_mnu = 0, st_cgl = 0;
-    var emoji=["aini","aiq","am","azgc","baiy","bangbangt","banzz","baojin","bb","bkx","bl","bp","bq","bs","bt","bu","bz","cd","cg","ch","cha","chi","cj","cp","cs","cy","dan","dao","dax","db","dg","dk","dl","doge","dx","dy","dz","ee","emm","fad","fan","fd","fendou","fj","fn","fw","gg","gy","gz","hanx","haob","hb","hc","hd","hec","hhd","hn","hp","hq","hsh","ht","huaix","hx","jd","jh","jiaybb","jiaybs","jie","jk","jw","jx","jy","ka","kb","kel","kf","kg","kk","kl","kt","kuk","kun","kzht","lb","lengh","lh","ll","lm","lq","lw","lyj","mdfq","mg","mm","ng","nkt","oh","oy","pch","pj","pp","px","pz","qd","qiang","qiao","qidao","qq","qt","ruo","sa","se","sh","shd","shl","shq","shuai","shui","shxi","sr","tiao","tl","tnl","tp","ts","tsh","tt","tuu","tx","ty","wbk","whl","wl","wn","wosl","wq","ws","wul","wx","wzm","xhx","xia","xig","xin","xjj","xk","xs","xu","xw","xy","xyx","yao","yb","yhh","yiw","yl","youl","youtj","yt","yun","yx","zhd","zhem","zhh","zhm","zhq","zj","zk","zq","zt","zuotj","zyj"];
-    var emjhtml = '<div class="se-emj"><img src="%SOURCE%" alt="/%EMOJI%" width="28px" height="28px"> | %EMOJI%</div>';
-    var srh = %SRH%;
-    var se_mnu_element = document.getElementById("se-mnu");
-    if (!srh) {
-        document.getElementById("se-srh").style.display = "none";
-    }
-    function se_mnu() {
-        if (srh || document.getElementById("se-upd").innerText != "") {
-            st_mnu = 1 - st_mnu;
-            se_mnu_element.style.display = (st_mnu == 0 ? "none" : "grid");
-        }
-        if (srh && st_mnu == 1) {
-            se_srh();
-        }
-    }
-    function se_srh() {
-        let wd = document.getElementById("se-ipt").value;
-        let ih = "";
-        for (let i = 0; i < emoji.length; i++) {
-            if (wd == "" || emoji[i].replace(wd, "") != emoji[i]) {
-                ih += emjhtml.replace(/%EMOJI%/g, emoji[i]);
-            }
-        }
-        document.getElementById("se-dsp").innerHTML = ih;
-    }
-    function se_cgl() {
-        st_cgl = 1 - st_cgl;
-        document.getElementById("se-cgl").style.display = (st_cgl == 0 ? "none" : "block");
-    }
-    document.getElementById("se-mnu").addEventListener("click", (event) => {
-        se_mnu_element.style.display = "grid";
-        event.stopPropagation();
-    });
-    document.getElementById("se-ent").addEventListener("click", (event) => {
-        se_mnu();
-        event.stopPropagation();
-    })
-    document.addEventListener("click", (event) => {
-        if (st_mnu) {
-            se_mnu();
-        }
-    })
-</script>

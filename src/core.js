@@ -3,6 +3,7 @@ import {
 } from "./utils.js";
 
 const cv = "2.1.3";
+let st;
 
 // ------------------------------
 
@@ -317,7 +318,7 @@ let se_html = `<style>
 </div>
 <div class="se-mnu" id="se-mnu">
     <div class="se-dsp" id="se-srh">
-        <input type="text" class="se-ipt" id="se-ipt" placeholder="搜索表情..." oninput="se_srh()">
+        <input type="text" class="se-ipt" id="se-ipt" placeholder="搜索表情...">
         <div class="se-dsp" id="se-dsp"></div>
     </div>
     <div class="se-dsp" id="se-upd" style="display: none;">
@@ -325,62 +326,63 @@ let se_html = `<style>
         <div class="se-dsp" id="se-cgl" style="display: none;"><center><b>更新日志</b><br></center></div>
     </div>
 </div>
-<button class="se-clr" id="se-clr">清除 LGSE 缓存</button>
-<script>
-    var st_mnu = 0, st_cgl = 0;
-    var emoji=["aini","aiq","am","azgc","baiy","bangbangt","banzz","baojin","bb","bkx","bl","bp","bq","bs","bt","bu","bz","cd","cg","ch","cha","chi","cj","cp","cs","cy","dan","dao","dax","db","dg","dk","dl","doge","dx","dy","dz","ee","emm","fad","fan","fd","fendou","fj","fn","fw","gg","gy","gz","hanx","haob","hb","hc","hd","hec","hhd","hn","hp","hq","hsh","ht","huaix","hx","jd","jh","jiaybb","jiaybs","jie","jk","jw","jx","jy","ka","kb","kel","kf","kg","kk","kl","kt","kuk","kun","kzht","lb","lengh","lh","ll","lm","lq","lw","lyj","mdfq","mg","mm","ng","nkt","oh","oy","pch","pj","pp","px","pz","qd","qiang","qiao","qidao","qq","qt","ruo","sa","se","sh","shd","shl","shq","shuai","shui","shxi","sr","tiao","tl","tnl","tp","ts","tsh","tt","tuu","tx","ty","wbk","whl","wl","wn","wosl","wq","ws","wul","wx","wzm","xhx","xia","xig","xin","xjj","xk","xs","xu","xw","xy","xyx","yao","yb","yhh","yiw","yl","youl","youtj","yt","yun","yx","zhd","zhem","zhh","zhm","zhq","zj","zk","zq","zt","zuotj","zyj"];
-    var emjhtml = '<div class="se-emj"><img src="%SOURCE%" alt="/%EMOJI%" width="28px" height="28px"> | %EMOJI%</div>';
-    var srh = %SRH%;
-    var se_mnu_element = document.getElementById("se-mnu");
-    if (!srh) {
-        document.getElementById("se-srh").style.display = "none";
-    }
-    function se_mnu() {
-        if (srh || document.getElementById("se-upd").innerText != "") {
-            st_mnu = 1 - st_mnu;
-            se_mnu_element.style.display = (st_mnu == 0 ? "none" : "grid");
-        }
-        if (srh && st_mnu == 1) {
-            se_srh();
+<button class="se-clr" id="se-clr">清除 LGSE 缓存</button>`;
+let st_mnu = 0, st_cgl = 0;
+let emjhtml = '<div class="se-emj"><img src="%SOURCE%" alt="/%EMOJI%" width="28px" height="28px"> | %EMOJI%</div>';
+function se_srh() {
+    let wd = document.getElementById("se-ipt").value;
+    let ih = "";
+    for (let i = 0; i < emoji.length; i++) {
+        if (wd == "" || emoji[i].replace(wd, "") != emoji[i]) {
+            ih += emjhtml.replace(/%EMOJI%/g, emoji[i]);
         }
     }
-    function se_srh() {
-        let wd = document.getElementById("se-ipt").value;
-        let ih = "";
-        for (let i = 0; i < emoji.length; i++) {
-            if (wd == "" || emoji[i].replace(wd, "") != emoji[i]) {
-                ih += emjhtml.replace(/%EMOJI%/g, emoji[i]);
-            }
-        }
-        document.getElementById("se-dsp").innerHTML = ih;
+    document.getElementById("se-dsp").innerHTML = ih;
+}
+function se_mnu() {
+    if (st["srh-emj"] || document.getElementById("se-upd").innerText != "") {
+        st_mnu = 1 - st_mnu;
+        document.getElementById("se-mnu").style.display = (st_mnu == 0 ? "none" : "grid");
     }
-    function se_cgl() {
-        st_cgl = 1 - st_cgl;
-        document.getElementById("se-cgl").style.display = (st_cgl == 0 ? "none" : "block");
+    if (st["srh-emj"] && st_mnu == 1) {
+        se_srh();
     }
-    document.getElementById("se-mnu").addEventListener("click", (event) => {
-        se_mnu_element.style.display = "grid";
-        event.stopPropagation();
-    });
-    document.getElementById("se-ent").addEventListener("click", (event) => {
-        se_mnu();
-        event.stopPropagation();
-    })
-    document.addEventListener("click", (event) => {
-        if (st_mnu) {
-            se_mnu();
-        }
-    })
-</script>`;
+}
+function se_cgl() {
+    st_cgl = 1 - st_cgl;
+    document.getElementById("se-cgl").style.display = (st_cgl == 0 ? "none" : "block");
+}
 /**
  *
  */
 function srhemj() {
     $("body").append(se_html);
-    document.getElementById("se-clr").addEventListener("click", () => {clrcache();});
+    document.getElementById("se-clr").addEventListener("click", () => {
+        clrcache();
+        location.reload();
+    });
     if (!indep) {
         document.getElementById("se-clr").style.display = "none";
     }
+    if (!st["srh-emj"]) {
+        document.getElementById("se-srh").style.display = "none";
+    }
+    document.getElementById("se-mnu").addEventListener("click", (event) => {
+        document.getElementById("se-mnu").style.display = "grid";
+        event.stopPropagation();
+    });
+    document.getElementById("se-ent").addEventListener("click", (event) => {
+        se_mnu();
+        event.stopPropagation();
+    });
+    document.addEventListener("click", () => {
+        if (st_mnu) {
+            se_mnu();
+        }
+    });
+    document.getElementById("se-ipt").addEventListener("input", () => {
+        se_srh();
+    });
 }
 
 // ------------------------------
@@ -400,7 +402,8 @@ let entimg = "<img src=\"%SOURCE_CY%\" width=\"28px\" height=\"28px\">";
  * @param lv
  */
 function upd_u(lv) {
-    $("#se-upm").append(`当前 <b><span style="color: #e67e22;">${cv}</span></b> --&gt; 最新 <b><span style="color: #52c41a;">${lv}</span></b><br><a href="https://lgse-source.netlify.app/LuoguShowEmoji.min.user.js" style="font-size: 0.7em">点击升级</a> <a onclick="se_cgl()" style="font-size: 0.7em">显示/隐藏更新日志</a>`);
+    $("#se-upm").append(`当前 <b><span style="color: #e67e22;">${cv}</span></b> --&gt; 最新 <b><span style="color: #52c41a;">${lv}</span></b><br><a href="https://lgse-source.netlify.app/LuoguShowEmoji.min.user.js" style="font-size: 0.7em">点击升级</a> <a id="se_cgl" style="font-size: 0.7em">显示/隐藏更新日志</a>`);
+    document.getElementById("se_cgl").addEventListener("click", () => {se_cgl();});
     LGSElog("Popped upgrade content");
 }
 /**
@@ -408,7 +411,8 @@ function upd_u(lv) {
  * @param lv
  */
 function upd_d(lv) {
-    $("#se-upm").append(`当前 <b><span style="color: #52c41a;">${cv}</span></b> &lt;-- 最新 <b><span style="color: #e67e22;">${lv}</span></b><br><a href="https://lgse-source.netlify.app/LuoguShowEmoji.min.user.js" style="font-size: 0.7em">点击降级</a> <a onclick="se_cgl()" style="font-size: 0.7em">显示/隐藏更新日志</a>`);
+    $("#se-upm").append(`当前 <b><span style="color: #52c41a;">${cv}</span></b> &lt;-- 最新 <b><span style="color: #e67e22;">${lv}</span></b><br><a href="https://lgse-source.netlify.app/LuoguShowEmoji.min.user.js" style="font-size: 0.7em">点击降级</a> <a id="se_cgl" style="font-size: 0.7em">显示/隐藏更新日志</a>`);
+    document.getElementById("se_cgl").addEventListener("click", () => {se_cgl();});
     LGSElog("Popped downgrade content");
 }
 /**
@@ -483,7 +487,6 @@ const stdef = {
         "img-src",
         "chk-upd",
     ];
-let st;
 /**
  *
  */
@@ -506,16 +509,12 @@ function readst() {
 function load_lg() {
     LGSElog("Loading settings for Luogu");
     rp = rp.replace(/%SOURCE%/g, src[st["img-src"]]);
-    se_html = se_html.replace(/%SOURCE%/g, src[st["img-src"]]).replace(/%SOURCE_CY%/g, src[st["img-src"]].replace(/%EMOJI%/g, "cy"));
+    se_html = se_html.replace(/%SOURCE_CY%/g, src[st["img-src"]].replace(/%EMOJI%/g, "cy"));
+    emjhtml = emjhtml.replace(/%SOURCE%/g, src[st["img-src"]]);
     entimg = entimg.replace(/%SOURCE_CY%/g, src[st["img-src"]].replace(/%EMOJI%/g, "cy"));
     if (st["rep-emj"] && chk()) {
         LGSElog("Started replacing");
         start();
-    }
-    if (st["srh-emj"]) {
-        se_html = se_html.replace(/%SRH%/g, "true");
-    } else {
-        se_html = se_html.replace(/%SRH%/g, "false");
     }
     srhemj();
     if (st["chk-upd"] && indep) {
