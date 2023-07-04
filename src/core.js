@@ -197,7 +197,8 @@ const emoji = [
     "zuotj",
     "zyj",
 ];
-const re = "(>[^<]*?)(/%EMOJI%)([^<A-Za-z])";
+const re1 = "(>[^<]*?)(/%EMOJI%)([^<A-Za-z][^<]*</[^a]>)";
+const re2 = "(>[^<]*?)(/%EMOJI%)([^<A-Za-z][^<]*<[^/])";
 let rp = "$1<span style=\"color: #c8c8c8; font-size: 0.3em;\">$2</span><img src=\"%SOURCE%\" alt=\"/%EMOJI%\" width=\"28px\" height=\"28px\">$3";
 /**
  *
@@ -210,11 +211,16 @@ function run() {
             if (cmts[x][i].innerHTML.indexOf("<!--LGSE Replaced-->") === -1) {
                 let str = cmts[x][i].innerHTML;
                 for (let j = emoji.length - 1; j >= 0; j--) {
-                    str = str.replace(new RegExp(`(/${emoji[j]})(<span)`, "g"), "$1 $2");
-                    str = str.replace(new RegExp(`(/${emoji[j]})(</{0,1}[^s/])`, "g"), "$1 $2");
-                    const regex = new RegExp(re.replace(/%EMOJI%/g, emoji[j]), "g");
-                    while (regex.test(str)) {
-                        str = str.replace(regex, rp.replace(/%EMOJI%/g, emoji[j]));
+                    str = str.replace(new RegExp(`(/${emoji[j]})(<span)`, "g"), "$1 $2")
+                             .replace(new RegExp(`(/${emoji[j]})(</{0,1}[^s/])`, "g"), "$1 $2");
+                    const rg1 = new RegExp(re1.replace(/%EMOJI%/g, emoji[j]), "g"), 
+                          rg2 = new RegExp(re2.replace(/%EMOJI%/g, emoji[j]), "g");
+                    while (rg1.test(str)) {
+                        str = str.replace(rg1, rp.replace(/%EMOJI%/g, emoji[j]));
+                        flag = true;
+                    }
+                    while (rg2.test(str)) {
+                        str = str.replace(rg2, rp.replace(/%EMOJI%/g, emoji[j]));
                         flag = true;
                     }
                 }
@@ -238,98 +244,58 @@ function start() {
 // ------------------------------
 
 let se_html = `<style>
-.se-ent {
-    z-index: 100;
-    position: fixed;
-    left: 30px;
-    bottom: 30px;
-    border-radius: 5px;
-    background-color: #fff;
-    padding: 11px;
-    width: auto;
-    height: auto;
-    cursor: pointer;
-}
-.se-ent:hover {
-    background-color: #ccc;
-}
-.se-mnu {
-    z-index: 100;
-    position: fixed;
-    top: 30px;
-    left: 30px;
-    border-radius: 5px;
-    background-color: #fff;
-    padding: 5px;
-    display: none;
-    width: max(35%, 300px);
-    height: calc(100% - 130px);
-    border: 1px solid #0e90d2;
-}
-.se-emj {
-    float: left;
-    background-color: #eee;
-    width: calc(28px + 7em);
-    height: auto;
-    border-radius: 2px;
-    margin: 5px;
-}
-.se-emj:hover {
-    background-color: #ccc;
-}
-.se-ipt {
-    width: calc(100% - 10px);
-    height: 1.5em;
-    margin-top: 0.25em;
-    margin-bottom: 0.25em;
-}
-.se-dsp {
-    width: auto;
-    height: auto;
-    overflow: auto;
-}
+    .se-ent {
+        z-index: 100;
+        position: fixed;
+        left: 30px;
+        bottom: 30px;
+        border-radius: 5px;
+        background-color: #fff;
+        padding: 11px;
+        width: auto;
+        height: auto;
+        cursor: pointer;
+    }
+    .se-ent:hover {
+        background-color: #ccc;
+    }
+    .se-mnu {
+        z-index: 100;
+        position: fixed;
+        top: 30px;
+        left: 30px;
+        border-radius: 5px;
+        background-color: #fff;
+        padding: 5px;
+        display: none;
+        width: max(35%, 300px);
+        height: calc(100% - 130px);
+        border: 1px solid #0e90d2;
+    }
+    .se-emj {
+        float: left;
+        background-color: #eee;
+        width: calc(28px + 7em);
+        height: auto;
+        border-radius: 2px;
+        margin: 5px;
+    }
+    .se-emj:hover {
+        background-color: #ccc;
+    }
+    .se-ipt {
+        width: calc(100% - 10px);
+        height: 1.5em;
+        margin-top: 0.25em;
+        margin-bottom: 0.25em;
+    }
+    .se-dsp {
+        width: auto;
+        height: auto;
+        overflow: auto;
+    }
 </style>
-<script>
-var st_mnu = 0, st_cgl = 0;
-var emoji=["aini","aiq","am","azgc","baiy","bangbangt","banzz","baojin","bb","bkx","bl","bp","bq","bs","bt","bu","bz","cd","cg","ch","cha","chi","cj","cp","cs","cy","dan","dao","dax","db","dg","dk","dl","doge","dx","dy","dz","ee","emm","fad","fan","fd","fendou","fj","fn","fw","gg","gy","gz","hanx","haob","hb","hc","hd","hec","hhd","hn","hp","hq","hsh","ht","huaix","hx","jd","jh","jiaybb","jiaybs","jie","jk","jw","jx","jy","ka","kb","kel","kf","kg","kk","kl","kt","kuk","kun","kzht","lb","lengh","lh","ll","lm","lq","lw","lyj","mdfq","mg","mm","ng","nkt","oh","oy","pch","pj","pp","px","pz","qd","qiang","qiao","qidao","qq","qt","ruo","sa","se","sh","shd","shl","shq","shuai","shui","shxi","sr","tiao","tl","tnl","tp","ts","tsh","tt","tuu","tx","ty","wbk","whl","wl","wn","wosl","wq","ws","wul","wx","wzm","xhx","xia","xig","xin","xjj","xk","xs","xu","xw","xy","xyx","yao","yb","yhh","yiw","yl","youl","youtj","yt","yun","yx","zhd","zhem","zhh","zhm","zhq","zj","zk","zq","zt","zuotj","zyj"];
-var emjhtml = '<div class="se-emj"><img src="%SOURCE%" alt="/%EMOJI%" width="28px" height="28px"> | %EMOJI%</div>';
-var srh = %SRH%;
-if (!srh)
-{
-    document.getElementById("se-srh").style.display = "none";
-}
-function se_mnu()
-{
-    if (srh || document.getElementById("se-upd").innerText != "")
-    {
-        st_mnu = 1 - st_mnu;
-        document.getElementById("se-mnu").style.display = (st_mnu == 0 ? "none" : "grid");
-    }
-    if (srh && st_mnu == 1)
-    {
-        se_srh();
-    }
-}
-function se_srh()
-{
-    let wd = document.getElementById("se-ipt").value;
-    let ih = "";
-    for (let i = 0; i < emoji.length; i++)
-    {
-        if (wd == "" || emoji[i].replace(wd, "") != emoji[i])
-        {
-            ih += emjhtml.replace(/%EMOJI%/g, emoji[i]);
-        }
-    }
-    document.getElementById("se-dsp").innerHTML = ih;
-}
-function se_cgl()
-{
-    st_cgl = 1 - st_cgl;
-    document.getElementById("se-cgl").style.display = (st_cgl == 0 ? "none" : "block");
-}
-</script>
-<div class="se-ent" id="se-ent" onclick="se_mnu()" oncontextmenu="window.open('https://lgse.netlify.app/lgse-settings-${cv}.html')" title="右键打开设置" status="ordinary">
+<div class="se-ent" id="se-ent" oncontextmenu="window.open('https://lgse.netlify.app/lgse-settings-${cv}.html')" title="右键打开设置" status="ordinary">
     <img src="%SOURCE_CY%" width="28px" height="28px">
 </div>
 <div class="se-mnu" id="se-mnu">
@@ -341,7 +307,53 @@ function se_cgl()
         <center id="se-upm"><b>LGSE 更新</b><br></center>
         <div class="se-dsp" id="se-cgl" style="display: none;"><center><b>更新日志</b><br></center></div>
     </div>
-</div>`;
+</div>
+<script>
+    var st_mnu = 0, st_cgl = 0;
+    var emoji=["aini","aiq","am","azgc","baiy","bangbangt","banzz","baojin","bb","bkx","bl","bp","bq","bs","bt","bu","bz","cd","cg","ch","cha","chi","cj","cp","cs","cy","dan","dao","dax","db","dg","dk","dl","doge","dx","dy","dz","ee","emm","fad","fan","fd","fendou","fj","fn","fw","gg","gy","gz","hanx","haob","hb","hc","hd","hec","hhd","hn","hp","hq","hsh","ht","huaix","hx","jd","jh","jiaybb","jiaybs","jie","jk","jw","jx","jy","ka","kb","kel","kf","kg","kk","kl","kt","kuk","kun","kzht","lb","lengh","lh","ll","lm","lq","lw","lyj","mdfq","mg","mm","ng","nkt","oh","oy","pch","pj","pp","px","pz","qd","qiang","qiao","qidao","qq","qt","ruo","sa","se","sh","shd","shl","shq","shuai","shui","shxi","sr","tiao","tl","tnl","tp","ts","tsh","tt","tuu","tx","ty","wbk","whl","wl","wn","wosl","wq","ws","wul","wx","wzm","xhx","xia","xig","xin","xjj","xk","xs","xu","xw","xy","xyx","yao","yb","yhh","yiw","yl","youl","youtj","yt","yun","yx","zhd","zhem","zhh","zhm","zhq","zj","zk","zq","zt","zuotj","zyj"];
+    var emjhtml = '<div class="se-emj"><img src="%SOURCE%" alt="/%EMOJI%" width="28px" height="28px"> | %EMOJI%</div>';
+    var srh = %SRH%;
+    var se_mnu_element = document.getElementById("se-mnu");
+    if (!srh) {
+        document.getElementById("se-srh").style.display = "none";
+    }
+    function se_mnu() {
+        if (srh || document.getElementById("se-upd").innerText != "") {
+            st_mnu = 1 - st_mnu;
+            se_mnu_element.style.display = (st_mnu == 0 ? "none" : "grid");
+        }
+        if (srh && st_mnu == 1) {
+            se_srh();
+        }
+    }
+    function se_srh() {
+        let wd = document.getElementById("se-ipt").value;
+        let ih = "";
+        for (let i = 0; i < emoji.length; i++) {
+            if (wd == "" || emoji[i].replace(wd, "") != emoji[i]) {
+                ih += emjhtml.replace(/%EMOJI%/g, emoji[i]);
+            }
+        }
+        document.getElementById("se-dsp").innerHTML = ih;
+    }
+    function se_cgl() {
+        st_cgl = 1 - st_cgl;
+        document.getElementById("se-cgl").style.display = (st_cgl == 0 ? "none" : "block");
+    }
+    document.getElementById("se-mnu").addEventListener("click", (event) => {
+        se_mnu_element.style.display = "grid";
+        event.stopPropagation();
+    });
+    document.getElementById("se-ent").addEventListener("click", (event) => {
+        se_mnu();
+        event.stopPropagation();
+    })
+    document.addEventListener("click", (event) => {
+        if (st_mnu) {
+            se_mnu();
+        }
+    })
+</script>`;
 /**
  *
  */
