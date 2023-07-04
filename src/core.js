@@ -1,5 +1,5 @@
 import {
-    LGSElog, request, indep, LGSE_Start,
+    indep, LGSElog, clrcache, request, LGSE_Start,
 } from "./utils.js";
 
 const cv = "2.1.3";
@@ -260,7 +260,7 @@ let se_html = `<style>
         background-color: #ccc;
     }
     .se-mnu {
-        z-index: 100;
+        z-index: 999;
         position: fixed;
         top: 30px;
         left: 30px;
@@ -294,6 +294,23 @@ let se_html = `<style>
         height: auto;
         overflow: auto;
     }
+    .se-clr {
+        z-index: 999;
+        position: fixed;
+        left: 100px;
+        bottom: 30px;
+        border-radius: 5px;
+        border: 0px;
+        padding-top: .5em;
+        padding-bottom: .5em;
+        padding-left: 1em;
+        padding-right: 1em;
+        color: #fff;
+        background-color: rgb(52, 152, 219);
+    }
+    .se-clr:hover {
+        background-color: rgba(52, 152, 219, 0.9);
+    }
 </style>
 <div class="se-ent" id="se-ent" oncontextmenu="window.open('https://lgse.netlify.app/lgse-settings-${cv}.html')" title="右键打开设置" status="ordinary">
     <img src="%SOURCE_CY%" width="28px" height="28px">
@@ -308,6 +325,7 @@ let se_html = `<style>
         <div class="se-dsp" id="se-cgl" style="display: none;"><center><b>更新日志</b><br></center></div>
     </div>
 </div>
+<button class="se-clr" id="se-clr">清除 LGSE 缓存</button>
 <script>
     var st_mnu = 0, st_cgl = 0;
     var emoji=["aini","aiq","am","azgc","baiy","bangbangt","banzz","baojin","bb","bkx","bl","bp","bq","bs","bt","bu","bz","cd","cg","ch","cha","chi","cj","cp","cs","cy","dan","dao","dax","db","dg","dk","dl","doge","dx","dy","dz","ee","emm","fad","fan","fd","fendou","fj","fn","fw","gg","gy","gz","hanx","haob","hb","hc","hd","hec","hhd","hn","hp","hq","hsh","ht","huaix","hx","jd","jh","jiaybb","jiaybs","jie","jk","jw","jx","jy","ka","kb","kel","kf","kg","kk","kl","kt","kuk","kun","kzht","lb","lengh","lh","ll","lm","lq","lw","lyj","mdfq","mg","mm","ng","nkt","oh","oy","pch","pj","pp","px","pz","qd","qiang","qiao","qidao","qq","qt","ruo","sa","se","sh","shd","shl","shq","shuai","shui","shxi","sr","tiao","tl","tnl","tp","ts","tsh","tt","tuu","tx","ty","wbk","whl","wl","wn","wosl","wq","ws","wul","wx","wzm","xhx","xia","xig","xin","xjj","xk","xs","xu","xw","xy","xyx","yao","yb","yhh","yiw","yl","youl","youtj","yt","yun","yx","zhd","zhem","zhh","zhm","zhq","zj","zk","zq","zt","zuotj","zyj"];
@@ -359,6 +377,7 @@ let se_html = `<style>
  */
 function srhemj() {
     $("body").append(se_html);
+    document.getElementById("se-clr").addEventListener("click", () => {clrcache();});
 }
 
 // ------------------------------

@@ -12,17 +12,58 @@ function LGSElog(str) {
 
 /**
  *
+ * @param key
+ */
+function getcache(key) {
+    let res = {};
+    LGSElog(`Finding cache: ${key}`);
+    const d = new Date(),
+        e = new Date(),
+        n = new Date().getTime();
+    d.setTime(parseInt(GM_getValue(`cache/time_${key}`, "0"), 10));
+    e.setTime(parseInt(GM_getValue(`cache/expired`, "0"), 10));
+    if (d == 0) {
+        LGSElog("Cache miss");
+        res.status = "miss";
+    } else if (n - d > 86400000 || d < e) {
+        LGSElog("Cache expired");
+        res.status = "expired";
+    } else {
+        LGSElog("Cache hit");
+        res.status = "hit";
+        res.content = GM_getValue(`cache/content_${key}`);
+    }
+    return res;
+}
+/**
+ *
+ * @param key
+ * @param cont
+ */
+function setcache(key, cont) {
+    LGSElog(`Setting cache: ${key} => ${cont}`);
+    GM_setValue(`cache/content_${key}`, cont);
+    GM_setValue(`cache/time_${key}`, new Date().getTime().toString());
+}
+/**
+ *
+ */
+function clrcache() {
+    LGSElog("Clearing cache");
+    GM_setValue(`cache/expired`, new Date().getTime().toString());
+}
+
+/**
+ *
  * @param url
  * @param call
  */
 function request(url, call) {
-    LGSElog(`Finding cache: ${url}`);
-    const d = new Date(),
-        n = new Date().getTime();
-    d.setTime(parseInt(GM_getValue(`cache/time_${url}`, "0"), 10));
-    let res = {};
-    if (n - d > 86400000) {
-        LGSElog("Cache miss");
+    const c = getcache(url);
+    if (c.status === "hit") {
+        call(JSON.parse(c.content));
+    } else {
+        LGSElog(`Requesting ${url}`);
         GM_xmlhttpRequest({
             method: "GET",
             url,
@@ -34,24 +75,14 @@ function request(url, call) {
                     content: response.responseText,
                 };
                 if (response.status === 200) {
-                    GM_setValue(`cache/content_${url}`, JSON.stringify(res));
-                    GM_setValue(`cache/time_${url}`, new Date().getTime().toString());
+                    setcache(url, JSON.stringify(res));
                 }
                 call(res);
             },
-            onerror(response) {
-                LGSElog(`Request failed: HTTP ${response.status}`);
-                res = {
-                    error: true,
-                    status: response.status,
-                };
-                call(res);
+            onerror() {
+                LGSElog("Request failed");
             },
         });
-    } else {
-        LGSElog("Cache hit");
-        res = JSON.parse(GM_getValue(`cache/content_${url}`));
-        call(res);
     }
 }
 
@@ -69,5 +100,5 @@ function LGSE_Start(LG, ST) {
 }
 
 export {
-    LGSElog, request, indep, LGSE_Start,
+    indep, LGSElog, getcache, setcache, clrcache, request, LGSE_Start,
 };
