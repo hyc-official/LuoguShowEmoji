@@ -378,6 +378,9 @@ let se_html = `<style>
 function srhemj() {
     $("body").append(se_html);
     document.getElementById("se-clr").addEventListener("click", () => {clrcache();});
+    if (!indep) {
+        document.getElementById("se-clr").style.display = "none";
+    }
 }
 
 // ------------------------------
