@@ -506,7 +506,7 @@ const stdef = {
  */
 function readst() {
     try {
-        const val = GM_getValue("settings", `{}`);
+        const val = GM_getValue(`${!indep ? "LGSE_" : ""}settings`, "{}");
         LGSElog(`Settings: ${val}`);
         st = JSON.parse(val);
     } catch (err) {
@@ -516,6 +516,8 @@ function readst() {
     }
     for (let i = 0; i < stlist.length; i++) if (st[stlist[i]] == null) st[stlist[i]] = stdef[stlist[i]];
 }
+
+// ------------------------------
 
 /**
  *
