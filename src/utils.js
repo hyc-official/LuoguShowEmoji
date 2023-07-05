@@ -50,7 +50,13 @@ function setcache(key, cont) {
  */
 function clrcache() {
     LGSElog("Clearing cache");
-    GM_setValue(`cache/expired`, new Date().getTime().toString());
+    GM_setValue("cache/expired", new Date().getTime().toString());
+}
+/**
+ *
+ */
+function getcacheextime() {
+    return parseInt(GM_getValue("cache/expired", "0"), 10);
 }
 
 /**
@@ -100,5 +106,5 @@ function LGSE_Start(LG, ST) {
 }
 
 export {
-    indep, LGSElog, getcache, setcache, clrcache, request, LGSE_Start,
+    indep, LGSElog, getcache, setcache, clrcache, getcacheextime, request, LGSE_Start,
 };

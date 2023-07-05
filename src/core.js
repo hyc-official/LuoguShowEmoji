@@ -1,5 +1,5 @@
 import {
-    indep, LGSElog, clrcache, request, LGSE_Start,
+    indep, LGSElog, clrcache, getcacheextime, request, LGSE_Start,
 } from "./utils.js";
 
 const cv = "2.1.3";
@@ -333,7 +333,7 @@ let se_html = `<style>
 let st_mnu = 0,
     st_cgl = 0;
 let emjhtml = "<div class=\"se-emj\"><img src=\"%SOURCE%\" alt=\"/%EMOJI%\" width=\"28px\" height=\"28px\">  %TEXT%</div>";
-let hlhtml = "<span class=\"se-hlt\">%TEXT%</span>"
+const hlhtml = "<span class=\"se-hlt\">%TEXT%</span>";
 /**
  *
  */
@@ -372,8 +372,14 @@ function se_cgl() {
 function srhemj() {
     $("body").append(se_html);
     document.getElementById("se-clr").addEventListener("click", () => {
-        clrcache();
-        location.reload();
+        const n = new Date().getTime(),
+            c = getcacheextime();
+        if (n - c < 600000) {
+            window.alert(`距离上次刷新还没有 10 分钟，请在 ${Math.ceil((600000 - (n - c)) / 60000)} 分钟后重试。`);
+        } else {
+            clrcache();
+            location.reload();
+        }
     });
     if (!indep) {
         document.getElementById("se-clr").style.display = "none";
