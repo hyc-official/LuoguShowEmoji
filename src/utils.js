@@ -98,7 +98,7 @@ function request(url, call) {
  * @param ST
  */
 function LGSE_Start(LG, ST) {
-    if (/.*\.luogu\.*/.test(document.location.hostname)) {
+    if (/.*\.luogu\..*/.test(document.location.hostname)) {
         LG();
     } else {
         ST();
