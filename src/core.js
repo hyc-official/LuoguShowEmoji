@@ -312,6 +312,9 @@ let se_html = `<style>
     .se-clr:hover {
         background-color: rgba(52, 152, 219, 0.9);
     }
+    .se-hlt {
+        color: #e67e22;
+    }
 </style>
 <div class="se-ent" id="se-ent" oncontextmenu="window.open('https://lgse.netlify.app/lgse-settings-${cv}.html')" title="右键打开设置" status="ordinary">
     <img src="%SOURCE_CY%" width="28px" height="28px">
@@ -330,6 +333,7 @@ let se_html = `<style>
 let st_mnu = 0,
     st_cgl = 0;
 let emjhtml = "<div class=\"se-emj\"><img src=\"%SOURCE%\" alt=\"/%EMOJI%\" width=\"28px\" height=\"28px\">  %TEXT%</div>";
+let hlhtml = "<span class=\"se-hlt\">%TEXT%</span>"
 /**
  *
  */
@@ -338,7 +342,7 @@ function se_srh() {
     let ih = "";
     for (let i = 0; i < emoji.length; i++) {
         if (wd === "" || emoji[i][0].replace(wd, "") !== emoji[i][0] || emoji[i][1].replace(wd, "") !== emoji[i][1]) {
-            ih += emjhtml.replace(/%EMOJI%/g, emoji[i][0]).replace(/%TEXT%/g, `${emoji[i][0]}<br>${emoji[i][1]}`);
+            ih += emjhtml.replace(/%EMOJI%/g, emoji[i][0]).replace(/%TEXT%/g, `${emoji[i][0].replace(wd, hlhtml.replace(/%TEXT%/g, wd))}<br>${emoji[i][1].replace(wd, hlhtml.replace(/%TEXT%/g, wd))}`);
         }
     }
     document.getElementById("se-dsp").innerHTML = ih;
