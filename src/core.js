@@ -295,23 +295,6 @@ let se_html = `<style>
         height: auto;
         overflow: auto;
     }
-    .se-clr {
-        z-index: 999;
-        position: fixed;
-        left: 100px;
-        bottom: 30px;
-        border-radius: 5px;
-        border: 0px;
-        padding-top: .5em;
-        padding-bottom: .5em;
-        padding-left: 1em;
-        padding-right: 1em;
-        color: #fff;
-        background-color: rgb(52, 152, 219);
-    }
-    .se-clr:hover {
-        background-color: rgba(52, 152, 219, 0.9);
-    }
     .se-hlt {
         color: #e67e22;
     }
@@ -328,8 +311,7 @@ let se_html = `<style>
         <center id="se-upm"><b>LGSE 更新</b><br></center>
         <div class="se-dsp" id="se-cgl" style="display: none;"><center><b>更新日志</b><br></center></div>
     </div>
-</div>
-<button class="se-clr" id="se-clr">清除 LGSE 缓存</button>`;
+</div>`;
 let st_mnu = 0,
     st_cgl = 0;
 let emjhtml = "<div class=\"se-emj\"><img src=\"%SOURCE%\" alt=\"/%EMOJI%\" width=\"28px\" height=\"28px\">  %TEXT%</div>";
@@ -371,19 +353,6 @@ function se_cgl() {
  */
 function srhemj() {
     $("body").append(se_html);
-    document.getElementById("se-clr").addEventListener("click", () => {
-        const n = new Date().getTime(),
-            c = getcacheextime();
-        if (n - c < 600000) {
-            window.alert(`距离上次刷新还没有 10 分钟，请在 ${Math.ceil((600000 - (n - c)) / 60000)} 分钟后重试。`);
-        } else {
-            clrcache();
-            location.reload();
-        }
-    });
-    if (!indep) {
-        document.getElementById("se-clr").style.display = "none";
-    }
     if (!st["srh-emj"]) {
         document.getElementById("se-srh").style.display = "none";
     }
@@ -529,7 +498,7 @@ function readst() {
  *
  */
 function load_lg() {
-    LGSElog("Loading settings for Luogu");
+    LGSElog("Loading for Luogu");
     rp = rp.replace(/%SOURCE%/g, src[st["img-src"]]);
     se_html = se_html.replace(/%SOURCE_CY%/g, src[st["img-src"]].replace(/%EMOJI%/g, "cy"));
     emjhtml = emjhtml.replace(/%SOURCE%/g, src[st["img-src"]]);
@@ -543,11 +512,33 @@ function load_lg() {
         request(updurl, upd);
     }
 }
+const clrbtn_html = `<style>
+    .se-clr {
+        z-index: 999;
+        position: fixed;
+        right: 30px;
+        bottom: 30px;
+        border-radius: 5px;
+        border: 0px;
+        padding-top: .5em;
+        padding-bottom: .5em;
+        padding-left: 1em;
+        padding-right: 1em;
+        color: #fff;
+        background-color: rgb(52, 152, 219);
+        font-size: 1rem;
+        cursor: pointer;
+    }
+    .se-clr:hover {
+        background-color: rgba(52, 152, 219, 0.9);
+    }
+</style>
+<button class="se-clr" id="se-clr">清除 LGSE 缓存</button>`;
 /**
  *
  */
 function load_st() {
-    LGSElog("Loading settings for Settings page");
+    LGSElog("Loading for Settings page");
     document.getElementById("rep-emj").checked = st["rep-emj"];
     document.getElementById("srh-emj").checked = st["srh-emj"];
     document.getElementById("img-src").selectedIndex = st["img-src"];
@@ -555,6 +546,20 @@ function load_st() {
     document.getElementById("status").style.color = "#52c41a";
     document.getElementById("status").innerText = "加载完成";
     document.getElementById("info").innerText = JSON.stringify(st);
+    $("body").append(clrbtn_html);
+    document.getElementById("se-clr").addEventListener("click", () => {
+        const n = new Date().getTime(),
+            c = getcacheextime();
+        if (n - c < 600000) {
+            window.alert(`距离上次清除缓存还没有 10 分钟，请在 ${Math.ceil((600000 - (n - c)) / 60000)} 分钟后重试。`);
+        } else {
+            clrcache();
+            window.alert("清除缓存成功，请刷新其它页面以使更改生效。");
+        }
+    });
+    if (!indep) {
+        document.getElementById("se-clr").style.display = "none";
+    }
 }
 
 /**
