@@ -2,7 +2,7 @@ import {
     indep, LGSElog, clrcache, getcacheextime, request, LGSE_Start,
 } from "./utils.js";
 
-const cv = "2.1.3";
+const cv = "2.2.0";
 let st;
 
 // ------------------------------

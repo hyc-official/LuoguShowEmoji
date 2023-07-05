@@ -1,6 +1,6 @@
 {
   "name": "luogushowemoji",
-  "version": "2.1.3",
+  "version": "2.2.0",
   "description": "Tampermonkey addons for Luogu to replace QQ emojis",
   "main": "index.js",
   "scripts": {
