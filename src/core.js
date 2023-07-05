@@ -582,9 +582,20 @@ function init() {
 /**
  *
  */
+function chkver() {
+    if (GM_getValue(`${!indep ? "LGSE_" : ""}ver`, "") !== cv) {
+        LGSElog("Installed version not match");
+        clrcache();
+        GM_setValue(`${!indep ? "LGSE_" : ""}ver`, cv);
+    }
+}
+/**
+ *
+ */
 function LG() {
     try {
         init();
+        chkver();
         load_lg();
     } catch (err) {
         LGSElog(`ERROR ${err}`);
