@@ -2,7 +2,7 @@ import {
     indep, LGSElog, clrcache, getcacheextime, request, LGSE_Start,
 } from "./utils.js";
 
-const cv = "2.2.0";
+const cv = "2.2.0", sv = "2.2.0";
 let st;
 
 // ------------------------------
@@ -299,7 +299,7 @@ let se_html = `<style>
         color: #e67e22;
     }
 </style>
-<div class="se-ent" id="se-ent" oncontextmenu="window.open('https://lgse.netlify.app/lgse-settings-${cv}.html')" title="右键打开设置" status="ordinary">
+<div class="se-ent" id="se-ent" oncontextmenu="window.open('https://lgse.netlify.app/lgse-settings-${sv}.html')" title="右键打开设置" status="ordinary">
     <img src="%SOURCE_CY%" width="28px" height="28px">
 </div>
 <div class="se-mnu" id="se-mnu">
