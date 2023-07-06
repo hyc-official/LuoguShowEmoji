@@ -302,7 +302,7 @@ let se_html = `<style>
         color: #e67e22;
     }
 </style>
-<div class="se-ent" id="se-ent" oncontextmenu="window.open('https://lgse.netlify.app/lgse-settings-${sv}.html')" title="右键打开设置" status="ordinary">
+<div class="se-ent" id="se-ent" oncontextmenu="window.open('https://lgse.heyc.eu.org/lgse-settings-${sv}.html')" title="右键打开设置" status="ordinary">
     <img src="%SOURCE_CY%" width="28px" height="28px">
 </div>
 <div class="se-mnu" id="se-mnu">
@@ -380,8 +380,8 @@ function srhemj() {
 // ------------------------------
 
 const vr = /[0-9]+\.[0-9]+\.[0-9]+/g;
-const updurl = "https://lgse-source.netlify.app/version";
-const cglurl = "https://lgse-source.netlify.app/changelog.txt";
+const updurl = "https://lgse-source.heyc.eu.org/version";
+const cglurl = "https://lgse-source.heyc.eu.org/changelog.txt";
 const updsvg = `<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="28px" width="28px">
     <circle cx="14" cy="14" r="14" stroke-width="0" fill="#fe4c61" />
     <line x1="14" y1="5" x2="5" y2="14" stroke="#fff" stroke-width="3" stroke-linecap="round" />
@@ -394,7 +394,7 @@ let entimg = "<img src=\"%SOURCE_CY%\" width=\"28px\" height=\"28px\">";
  * @param lv
  */
 function upd_u(lv) {
-    $("#se-upm").append(`当前 <b><span style="color: #e67e22;">${cv}</span></b> --&gt; 最新 <b><span style="color: #52c41a;">${lv}</span></b><br><a href="https://lgse-source.netlify.app/LuoguShowEmoji.min.user.js" style="font-size: 0.7em">点击升级</a> <a id="se_cgl" style="font-size: 0.7em">显示/隐藏更新日志</a>`);
+    $("#se-upm").append(`当前 <b><span style="color: #e67e22;">${cv}</span></b> --&gt; 最新 <b><span style="color: #52c41a;">${lv}</span></b><br><a href="https://lgse-source.heyc.eu.org/LuoguShowEmoji.min.user.js" style="font-size: 0.7em">点击升级</a> <a id="se_cgl" style="font-size: 0.7em">显示/隐藏更新日志</a>`);
     document.getElementById("se_cgl").addEventListener("click", () => { se_cgl(); });
     LGSElog("Popped upgrade content");
 }
@@ -403,7 +403,7 @@ function upd_u(lv) {
  * @param lv
  */
 function upd_d(lv) {
-    $("#se-upm").append(`当前 <b><span style="color: #52c41a;">${cv}</span></b> &lt;-- 最新 <b><span style="color: #e67e22;">${lv}</span></b><br><a href="https://lgse-source.netlify.app/LuoguShowEmoji.min.user.js" style="font-size: 0.7em">点击降级</a> <a id="se_cgl" style="font-size: 0.7em">显示/隐藏更新日志</a>`);
+    $("#se-upm").append(`当前 <b><span style="color: #52c41a;">${cv}</span></b> &lt;-- 最新 <b><span style="color: #e67e22;">${lv}</span></b><br><a href="https://lgse-source.heyc.eu.org/LuoguShowEmoji.min.user.js" style="font-size: 0.7em">点击降级</a> <a id="se_cgl" style="font-size: 0.7em">显示/隐藏更新日志</a>`);
     document.getElementById("se_cgl").addEventListener("click", () => { se_cgl(); });
     LGSElog("Popped downgrade content");
 }

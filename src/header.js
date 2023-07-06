@@ -6,9 +6,10 @@
 // @author       Heyc
 // @match        https://www.luogu.com.cn/*
 // @match        *://*/*lgse-settings*
-// @icon         https://cdn.jsdelivr.net/gh/hyc-official/LGSE-page/favicon.ico
+// @icon         https://lgse.heyc.eu.org/favicon.ico
 // @require      https://code.jquery.com/jquery-3.6.0.min.js
 // @require      https://unpkg.com/marked/marked.min.js
+// @connect      lgse-source.heyc.eu.org
 // @connect      lgse-source.netlify.app
 // @grant        GM_setValue
 // @grant        GM_getValue
