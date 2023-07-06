@@ -23,8 +23,7 @@ exports = async() => {
     const header = await fs.readFile('./src/header.js', 'utf-8');
     const coreJS = await fs.readFile('./dist/core.min.js', 'utf-8');
     const connected = 
-        header.replace('{{version}}', pkg.version) +
-        `\n${coreJS}\n`;
+        `${header.replace('{{version}}', pkg.version)}\n${coreJS.replace('{{version}}', pkg.version)}`;
     
     await fs.writeFile('./dist/LuoguShowEmoji.min.user.js', connected);
     
