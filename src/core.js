@@ -327,7 +327,7 @@ function se_srh() {
     let ih = "";
     for (let i = 0; i < emoji.length; i++) {
         if (wd === "" || emoji[i][0].replace(wd, "") !== emoji[i][0] || emoji[i][1].replace(wd, "") !== emoji[i][1]) {
-            ih += emjhtml.replace(/%EMOJI%/g, emoji[i][0]).replace(/%TEXT%/g, `${emoji[i][0].replace(wd, hlhtml.replace(/%TEXT%/g, wd))}<br>${emoji[i][1].replace(wd, hlhtml.replace(/%TEXT%/g, wd))}`);
+            ih += emjhtml.replace(/%EMOJI%/g, emoji[i][0]).replace(/%TEXT%/g, `${emoji[i][0].replaceAll(wd, hlhtml.replace(/%TEXT%/g, wd))}<br>${emoji[i][1].replaceAll(wd, hlhtml.replace(/%TEXT%/g, wd))}`);
         }
     }
     document.getElementById("se-dsp").innerHTML = ih;
