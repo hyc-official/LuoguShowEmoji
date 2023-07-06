@@ -529,7 +529,7 @@ const clrbtn_html = `<style>
         padding-right: 1em;
         color: #fff;
         background-color: rgb(52, 152, 219);
-        font-size: 1rem;
+        font-size: 1em;
         cursor: pointer;
     }
     .se-clr:hover {
@@ -572,7 +572,7 @@ function listen_st() {
     const stn = document.getElementById("info").innerText;
     if (stn !== "" && stn !== JSON.stringify(st)) {
         st = JSON.parse(stn);
-        GM_setValue("settings", stn);
+        GM_setValue(`${!indep ? "LGSE_" : ""}settings`, stn);
         document.getElementById("status").style.color = "#52c41a";
         document.getElementById("status").innerText = "已保存";
         LGSElog("Saved");
