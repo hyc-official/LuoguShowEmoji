@@ -8,21 +8,39 @@ let st;
 
 // ------------------------------
 
-const reg_lg = [/\/discuss\/[0-9]+/, /\/user\/[0-9]+/, /\/chat.*/];
+const reg_lg = [
+    [".am-comment-bd", [/^\/$/, /^\/discuss\/.*$/]],
+    [".content", [/^\/user\/.*$/]],
+    [".message-block", [/^\/chat.*$/]],
+];
 
 /**
  *
  */
 function chk() {
-    if (document.location.pathname === "/") {
-        return true;
-    }
     for (let i = 0; i < reg_lg.length; i++) {
-        if (reg_lg[i].test(document.location.pathname)) {
-            return true;
+        for (let j = 0; j < reg_lg[i][1].length; j++) {
+            if (reg_lg[i][1][j].test(document.location.pathname)) {
+                return true;
+            }
         }
     }
     return false;
+}
+
+/**
+ *
+ */
+function getcmts() {
+    const cmts = [];
+    for (let i = 0; i < reg_lg.length; i++) {
+        for (let j = 0; j < reg_lg[i][1].length; j++) {
+            if (reg_lg[i][1][j].test(document.location.pathname)) {
+                cmts[cmts.length] = document.querySelectorAll(reg_lg[i][0]);
+            }
+        }
+    }
+    return cmts;
 }
 
 const emoji = [
@@ -206,7 +224,7 @@ let rp = "$1<span style=\"color: #c8c8c8; font-size: 0.3em;\">/%EMOJI%</span><im
  *
  */
 function run() {
-    const cmts = [document.querySelectorAll(".am-comment-bd"), document.querySelectorAll(".content"), document.querySelectorAll(".message-block")];
+    const cmts = getcmts();
     let flag = false;
     for (let x = 0; x < cmts.length; x++) {
         for (let i = 0; i < cmts[x].length; i++) {
