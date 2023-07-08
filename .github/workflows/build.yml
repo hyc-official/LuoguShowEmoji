@@ -50,6 +50,7 @@ jobs:
           name: Version ${{ env.VER }}
           tag_name: ${{ env.VER }}
           body_path: ./release-note.txt
+          files: ./dist/LuoguShowEmoji.min.user.js
       - name: Page
         run: cp ./src/changelog.txt -r ./dist
       - name: Page deploy
