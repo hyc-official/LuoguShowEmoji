@@ -1,0 +1,21 @@
+name: lint
+on: 
+  push: 
+    branches: 
+      - master
+permissions:  
+  contents: read
+jobs: 
+  lint: 
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Use Node.js 16
+        uses: actions/setup-node@v3.6.0
+        with: 
+          node-version: '16'
+      - name: Install dependencies
+        run: npm install
+      - name: ESLint
+        run: npm run lint
