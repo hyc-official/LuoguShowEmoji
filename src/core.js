@@ -403,7 +403,7 @@ function srhemj() {
 
 // ------------------------------
 
-const vr = /[0-9]+\.[0-9]+\.[0-9]+/g;
+const vr = /^[0-9]+\.[0-9]+\.[0-9]+$/g;
 const updurl = "https://lgse-source.heyc.eu.org/version";
 const cglurl = "https://lgse-source.heyc.eu.org/changelog.txt";
 const updsvg = `<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="28px" width="28px">
