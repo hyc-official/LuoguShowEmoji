@@ -393,6 +393,11 @@ function srhemj() {
     document.getElementById("se-ipt").addEventListener("input", () => {
         se_srh();
     });
+    document.addEventListener("keydown", (event) => {
+        if (event.key == "Escape" && st_mnu) {
+            se_mnu();
+        }
+    });
 }
 
 // ------------------------------
