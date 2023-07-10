@@ -359,6 +359,7 @@ function se_mnu() {
         document.getElementById("se-mnu").style.display = (st_mnu === 0 ? "none" : "grid");
     }
     if (st["srh-emj"] && st_mnu === 1) {
+        document.getElementById("se-ipt").focus();
         se_srh();
     }
 }
