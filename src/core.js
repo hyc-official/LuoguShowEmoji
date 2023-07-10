@@ -395,7 +395,7 @@ function srhemj() {
         se_srh();
     });
     document.addEventListener("keydown", (event) => {
-        if (event.key == "Escape" && st_mnu) {
+        if (event.key === "Escape" && st_mnu) {
             se_mnu();
         }
     });
