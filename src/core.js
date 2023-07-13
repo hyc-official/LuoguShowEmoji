@@ -217,50 +217,61 @@ const emoji = [
     ["zuotj", "左太极"],
     ["zyj", "眨眼睛"],
 ];
-const re1 = "(>[^<]*?)/%EMOJI%([^<A-Za-z][^<]*</[^a])";
-const re2 = "(>[^<]*?)/%EMOJI%([^<A-Za-z][^<]*<[^/])";
-let rp = "$1<span style=\"color: #c8c8c8; font-size: 0.3em;\">/%EMOJI%</span><img src=\"%SOURCE%\" alt=\"%NAME%\" title=\"%NAME%\" width=\"28px\" height=\"28px\">$2";
+const re = "/%EMOJI%([^A-Za-z])";
+let rp = "<span style=\"color: #c8c8c8; font-size: 0.3em;\">/%EMOJI%</span><img src=\"%SOURCE%\" alt=\"%NAME%\" title=\"%NAME%\" width=\"28px\" height=\"28px\">$1";
+/**
+ *
+ * @param element
+ */
+function run_replace(element) {
+    if (element.nodeType === 1) {
+        if (element.tagName === "A") {
+            return [false, element.outerHTML];
+        }
+        const cld = element.childNodes;
+        let flag = false, str = "";
+        for (let i = 0; i < cld.length; i++) {
+            let res = run_replace(cld[i]);
+            flag = flag || res[0];
+            str += res[1];
+        }
+        element.innerHTML = str;
+        return [flag, element.outerHTML];
+    }
+    if (element.nodeType === 3) {
+        let flag = false,
+            str = element.data + " ";
+        for (let i = 0; i < emoji.length; i++) {
+            const rg = new RegExp(re.replaceAll(/%EMOJI%/g, emoji[i][0]), "g");
+            if (rg.test(str)) {
+                const rs = rp.replaceAll(/%EMOJI%/g, emoji[i][0]).replaceAll(/%NAME%/g, emoji[i][1]);
+                str = str.replaceAll(rg, rs);
+                flag = true;
+            }
+        }
+        return [flag, str.substring(0, str.length - 1)];
+    }
+    return [false, ""];
+}
 /**
  *
  */
-function run() {
+function start_replace() {
     const cmts = getcmts();
     let flag = false;
     for (let x = 0; x < cmts.length; x++) {
         for (let i = 0; i < cmts[x].length; i++) {
-            if (cmts[x][i].innerHTML.indexOf("<!--LGSE Replaced-->") === -1) {
-                let str = `${cmts[x][i].innerHTML} `;
-                for (let j = emoji.length - 1; j >= 0; j--) {
-                    str = str.replace(new RegExp(`(/${emoji[j][0]})(<span)`, "g"), "$1 $2")
-                        .replace(new RegExp(`(/${emoji[j][0]})(</{0,1}[^s/])`, "g"), "$1 $2");
-                    const rg1 = new RegExp(re1.replace(/%EMOJI%/g, emoji[j][0]), "g"),
-                        rg2 = new RegExp(re2.replace(/%EMOJI%/g, emoji[j][0]), "g");
-                    while (rg1.test(str)) {
-                        str = str.replace(rg1, rp.replace(/%EMOJI%/g, emoji[j][0])
-                            .replace(/%NAME%/g, emoji[j][1]));
-                        flag = true;
-                    }
-                    while (rg2.test(str)) {
-                        str = str.replace(rg2, rp.replace(/%EMOJI%/g, emoji[j][0])
-                            .replace(/%NAME%/g, emoji[j][1]));
-                        flag = true;
-                    }
-                }
-                str += "<!--LGSE Replaced-->";
-                cmts[x][i].innerHTML = str;
+            if (cmts[x][i].lgse_replaced !== "true") {
+                let res = run_replace(cmts[x][i]);
+                flag = flag || res[0];
+                cmts[x][i].lgse_replaced = "true";
             }
         }
     }
     if (flag) {
         LGSElog("Replaced");
     }
-}
-/**
- *
- */
-function start() {
-    run();
-    setTimeout(start, 1000);
+    setTimeout(start_replace, 1000);
 }
 
 // ------------------------------
@@ -532,7 +543,7 @@ function load_lg() {
     entimg = entimg.replace(/%SOURCE_CY%/g, src[st["img-src"]].replace(/%EMOJI%/g, "cy"));
     if (st["rep-emj"] && chk()) {
         LGSElog("Started replacing");
-        start();
+        start_replace();
     }
     srhemj();
     if (st["chk-upd"] && indep) {
