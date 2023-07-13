@@ -229,9 +229,10 @@ function run_replace(element) {
             return [false, element.outerHTML];
         }
         const cld = element.childNodes;
-        let flag = false, str = "";
+        let flag = false,
+            str = "";
         for (let i = 0; i < cld.length; i++) {
-            let res = run_replace(cld[i]);
+            const res = run_replace(cld[i]);
             flag = flag || res[0];
             str += res[1];
         }
@@ -240,7 +241,7 @@ function run_replace(element) {
     }
     if (element.nodeType === 3) {
         let flag = false,
-            str = element.data + " ";
+            str = `${element.data} `;
         for (let i = 0; i < emoji.length; i++) {
             const rg = new RegExp(re.replaceAll(/%EMOJI%/g, emoji[i][0]), "g");
             if (rg.test(str)) {
@@ -262,7 +263,7 @@ function start_replace() {
     for (let x = 0; x < cmts.length; x++) {
         for (let i = 0; i < cmts[x].length; i++) {
             if (cmts[x][i].lgse_replaced !== "true") {
-                let res = run_replace(cmts[x][i]);
+                const res = run_replace(cmts[x][i]);
                 flag = flag || res[0];
                 cmts[x][i].lgse_replaced = "true";
             }
