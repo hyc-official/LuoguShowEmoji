@@ -225,7 +225,7 @@ let rp = "<span style=\"color: #c8c8c8; font-size: 0.3em;\">/%EMOJI%</span><img 
  */
 function run_replace(element) {
     if (element.nodeType === 1) {
-        if (element.tagName === "A") {
+        if (element.tagName === "A" || element.tagName == "CODE") {
             return [false, element.outerHTML];
         }
         const cld = element.childNodes;
@@ -236,7 +236,9 @@ function run_replace(element) {
             flag = flag || res[0];
             str += res[1];
         }
-        element.innerHTML = str;
+        if (flag) {
+            element.innerHTML = str;
+        }
         return [flag, element.outerHTML];
     }
     if (element.nodeType === 3) {
