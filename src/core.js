@@ -245,7 +245,8 @@ function run_replace(element) {
         let flag = false,
             str = `>${element.data} <`;
         for (let i = 0; i < emoji.length; i++) {
-            const rg = new RegExp(re.replace(/%EMOJI%/g, emoji[i][0]), "g"), rs = rp.replace(/%EMOJI%/g, emoji[i][0]).replace(/%NAME%/g, emoji[i][1]);
+            const rg = new RegExp(re.replace(/%EMOJI%/g, emoji[i][0]), "g"),
+                rs = rp.replace(/%EMOJI%/g, emoji[i][0]).replace(/%NAME%/g, emoji[i][1]);
             while (rg.test(str)) {
                 str = str.replace(rg, rs);
                 flag = true;
