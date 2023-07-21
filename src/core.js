@@ -217,7 +217,7 @@ const emoji = [
     ["zuotj", "左太极"],
     ["zyj", "眨眼睛"],
 ];
-const re = "/%EMOJI%([^A-Za-z])";
+const re = "/%EMOJI%([^<A-Za-z][^>]*<)";
 let rp = "<span style=\"color: #c8c8c8; font-size: 0.3em;\">/%EMOJI%</span><img src=\"%SOURCE%\" alt=\"%NAME%\" title=\"%NAME%\" width=\"28px\" height=\"28px\">$1";
 /**
  *
@@ -243,16 +243,15 @@ function run_replace(element) {
     }
     if (element.nodeType === 3) {
         let flag = false,
-            str = `${element.data} `;
+            str = `>${element.data} <`;
         for (let i = 0; i < emoji.length; i++) {
-            const rg = new RegExp(re.replaceAll(/%EMOJI%/g, emoji[i][0]), "g");
-            if (rg.test(str)) {
-                const rs = rp.replaceAll(/%EMOJI%/g, emoji[i][0]).replaceAll(/%NAME%/g, emoji[i][1]);
-                str = str.replaceAll(rg, rs);
+            const rg = new RegExp(re.replace(/%EMOJI%/g, emoji[i][0]), "g"), rs = rp.replace(/%EMOJI%/g, emoji[i][0]).replace(/%NAME%/g, emoji[i][1]);
+            while (rg.test(str)) {
+                str = str.replace(rg, rs);
                 flag = true;
             }
         }
-        return [flag, str.substring(0, str.length - 1)];
+        return [flag, str.substring(1, str.length - 2)];
     }
     return [false, ""];
 }
