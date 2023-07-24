@@ -5,9 +5,10 @@ const css = "color: #E67E22;";
 /**
  *
  * @param str
+ * @param {...any} s
  */
-function LGSElog(str) {
-    console.log(`%c[lgse] ${str}`, css);
+function LGSElog(str, ...s) {
+    console.log(`%c[lgse] ${str}`, css, ...s);
 }
 
 /**
@@ -63,13 +64,14 @@ function getcacheextime() {
  *
  * @param url
  * @param call
+ * @param {...any}  s
  */
-function request(url, call) {
+function request(url, call, ...s) {
     const c = getcache(url);
     if (c.status === "hit") {
-        call(JSON.parse(c.content));
+        call(JSON.parse(c.content), ...s);
     } else {
-        LGSElog(`Requesting ${url}`);
+        LGSElog(`Request ${url}`);
         GM_xmlhttpRequest({
             method: "GET",
             url,
@@ -83,7 +85,7 @@ function request(url, call) {
                 if (response.status === 200) {
                     setcache(url, JSON.stringify(res));
                 }
-                call(res);
+                call(res, ...s);
             },
             onerror() {
                 LGSElog("Request failed");
