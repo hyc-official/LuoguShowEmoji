@@ -224,7 +224,7 @@ const emoji = [
     ["zyj", "眨眼睛"],
 ];
 const re = "/%EMOJI%([^<A-Za-z][^>]*<)";
-let rp = "<span style=\"color: #c8c8c8; font-size: 0.3em;\">/%EMOJI%</span><img src=\"%SOURCE%\" alt=\"%NAME%\" title=\"%NAME%\" width=\"28px\" height=\"28px\">$1";
+let rp = "<span style=\"color: #c8c8c8; font-size: 0.3em;\">/%EMOJI%</span><img src=\"%SOURCE%\" alt=\"%NAME%\" title=\"%NAME%\" class=\"lgse-emoji-image\" width=\"28px\" height=\"28px\">$1";
 /**
  *
  * @param element
