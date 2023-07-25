@@ -489,7 +489,7 @@ function upd_cglog(res) {
  */
 function upd(res) {
     if (!res.error && res.status === 200 && vr.test(res.content)) {
-        LGSElog(`Get version success: CV ${cv} | LV ${res.content}`);
+        LGSElog("Get version succeed", cv, res.content);
         if (res.content > cv) {
             upd_u(res.content);
             upd_blink();
@@ -502,7 +502,7 @@ function upd(res) {
             request(cglurl, upd_cglog);
         }
     } else {
-        LGSElog("Get version failed");
+        LGSElog("Get version fail");
         upd_f();
     }
 }
@@ -529,7 +529,7 @@ const stdef = {
 function readst() {
     try {
         const val = GM_getValue(`${!indep ? "LGSE_" : ""}settings`, "{}");
-        LGSElog(`Settings: ${val}`);
+        LGSElog("Settings", val);
         st = JSON.parse(val);
     } catch (err) {
         LGSElog(`ERROR ${err}`);
@@ -551,7 +551,7 @@ function load_lg() {
     emjhtml = emjhtml.replace(/%SOURCE%/g, src[st["img-src"]]);
     entimg = entimg.replace(/%SOURCE_CY%/g, src[st["img-src"]].replace(/%EMOJI%/g, "cy"));
     if (st["rep-emj"] && chk()) {
-        LGSElog("Started replacing");
+        LGSElog("Start replacing");
         start_replace();
     }
     srhemj();
@@ -628,7 +628,7 @@ function listen_st() {
  *
  */
 function init() {
-    LGSElog("Started");
+    LGSElog("Starting");
     readst();
 }
 /**
