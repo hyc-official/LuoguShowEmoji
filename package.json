@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/hyc-official/LuoguShowEmoji#readme",
   "devDependencies": {
-    "eslint": "^8.35.0",
+    "eslint": "^8.46.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.27.5",
