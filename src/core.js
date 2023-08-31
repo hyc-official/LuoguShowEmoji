@@ -496,11 +496,37 @@ function upd_cglog(res) {
 function upd(res) {
     if (!res.error && res.status === 200 && vr.test(res.content)) {
         LGSElog("Get version succeed", cv, res.content);
-        if (res.content > cv) {
+        const [c1, c2, c3] = cv.split(".").map(Number);
+        const [l1, l2, l3] = res.content.split(".").map(Number);
+        const chkver = () => {
+            if (c1 != l1) {
+                if (c1 < l1) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            }
+            if (c2 != l2) {
+                if (c2 < l2) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            }
+            if (c3 != l3) {
+                if (c3 < l3) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            }
+            return 0;
+        };
+        if (chkver() == 1) {
             upd_u(res.content);
             upd_blink();
         }
-        if (res.content < cv) {
+        if (chkver() == -1) {
             upd_d(res.content);
         }
         if (res.content !== cv) {
