@@ -289,13 +289,14 @@ let se_html = `<style>
     .se-ent {
         z-index: 100;
         position: fixed;
-        left: 30px;
+        left: calc(3.7em + 30px);
         bottom: 30px;
         border-radius: 5px;
         background-color: #fff;
         padding: 11px;
-        width: auto;
-        height: auto;
+        width: 50px;
+        height: 50px;
+        box-sizing: border-box;
         cursor: pointer;
     }
     .se-ent:hover {
@@ -305,7 +306,7 @@ let se_html = `<style>
         z-index: 999;
         position: fixed;
         top: 30px;
-        left: 30px;
+        left: calc(3.7em + 30px);
         border-radius: 5px;
         background-color: #fff;
         padding: 5px;
@@ -338,6 +339,11 @@ let se_html = `<style>
     }
     .se-hlt {
         color: #e67e22;
+    }
+    @media screen and (max-width: 576px) {
+        .se-ent, .se-mnu {
+            left: 30px !important;
+        }
     }
 </style>
 <div class="se-ent" id="se-ent" oncontextmenu="window.open('https://lgse.heyc.eu.org/lgse-settings-${sv}.html')" title="右键打开设置" status="ordinary">
