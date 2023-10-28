@@ -9,7 +9,8 @@ let st;
 // ------------------------------
 
 const reg_lg = [
-    [".am-comment-bd", [/^\/$/, /^\/discuss\/.*$/]],
+    [".am-comment-bd", [/^\/$/]],
+    [".collapsed-wrapper", [/^\/discuss\/.*$/]],
     [".content", [/^\/user\/.*$/]],
     [".message", [/^\/chat.*$/]],
 ];
