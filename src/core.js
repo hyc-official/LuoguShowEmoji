@@ -539,7 +539,7 @@ function upd(res) {
 
 // ------------------------------
 
-const src = ["https://cdn.jsdelivr.net/gh/hyc1230/qqemoji/56x56/%EMOJI%.gif", "https://ghproxy.com/https://raw.githubusercontent.com/hyc1230/qqemoji/master/56x56/%EMOJI%.gif", "https://qqemoji.heyc.eu.org/56x56/%EMOJI%.gif", "https://qqemoji.netlify.app/56x56/%EMOJI%.gif"];
+const src = ["https://cdn.jsdelivr.net/gh/hyc1230/qqemoji/56x56/%EMOJI%.gif", "https://mirror.ghproxy.com/https://raw.githubusercontent.com/hyc1230/qqemoji/master/56x56/%EMOJI%.gif", "https://qqemoji.heyc.eu.org/56x56/%EMOJI%.gif", "https://qqemoji.netlify.app/56x56/%EMOJI%.gif"];
 
 const stdef = {
         "rep-emj": true,
