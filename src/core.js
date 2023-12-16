@@ -281,7 +281,7 @@ function start_replace() {
     if (flag) {
         LGSElog("Replaced");
     }
-    setTimeout(start_replace, 1000);
+    setTimeout(start_replace, 100);
 }
 
 // ------------------------------
@@ -566,7 +566,11 @@ function readst() {
         LGSElog("Using default settings");
         st = stdef;
     }
-    for (let i = 0; i < stlist.length; i++) if (st[stlist[i]] == null) st[stlist[i]] = stdef[stlist[i]];
+    for (let i = 0; i < stlist.length; i++) {
+        if (st[stlist[i]] == null) {
+            st[stlist[i]] = stdef[stlist[i]];
+        }
+    }
 }
 
 // ------------------------------
@@ -651,7 +655,7 @@ function listen_st() {
         document.getElementById("status").innerText = "已保存";
         LGSElog("Saved");
     }
-    setInterval(listen_st, 1000);
+    setInterval(listen_st, 100);
 }
 
 /**
